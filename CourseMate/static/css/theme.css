@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    --color-mint: #63d297;
+    --color-lightmint: #e7f9ef;
+    --color-darkmint: #26a69a;
+    --color-lightyellow: #FEF8E3;
+    --font-header: 'Poppins', sans-serif;
+    --font-paragraph: sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-header);
+    color: green;
+}
+
+p {
+    font-family: var(--font-paragraph);
+}
+
+#banner {
+    background: var(--color-mint);
+}

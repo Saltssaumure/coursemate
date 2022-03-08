@@ -1,63 +1,57 @@
-<!DOCTYPE html>
-
+{% extends 'base.html'}
 {% load staticfiles %}
 
-<html lang="en">
+{% block title-block %}
+    Teacher's Overview | CourseMate
+{% endblock %}
 
-    <head>
-        <title>Teachers | CourseMate</title>
-    </head>
+{% block body-block %}
+    <section id="reviews-bar">
+        <header id="reviews-header">
+            <h1>Your Reviews</h1>
+        </header>
+        <article class="review">
+            <p>Review text</p>
+            <ul>
+                <li>Review: {score}</li>
+                <li>Date: {date}</li>
+            </ul>
+        </article>
+    </section>
 
-    <body>
-        <header>
-            <h1>CourseMate</h1> 
-            <h2>Welcome Back, {user}!</h2>
-            <a href="">
-                <img src="user pfp" alt="{user}'s profile picture" />
-            </a>
+    <section id="courses-bar">
+        <header id="courses-header">
+            <h1>Your Courses</h1>
+            <button>Register a Course</button>
         </header>
 
-        <main>
-            <section id="reviews-bar">
-                <header id="reviews-header">
-                    <h1>Your Reviews</h1>
-                </header>
-                <article class="review">
-                    <p>Review text</p>
-                    <ul>
-                        <li>Review: {score}</li>
-                        <li>Date: {date}</li>
-                    </ul>
-                </article>
-            </section>
-
-            <section id="courses-bar">
-                <header id="courses-header">
-                    <h1>Your Courses</h1>
-                    <button>Register a Course</button>
-                </header>
+        {% if courses %}
+            {% for course in courses %}
                 <article class="course">
-                    <h2>Course {number}</h2>
+                    <h2>
+                        <a href="{{course.url}}">{{course.name}}</a>
+                    </h2>
                     <ul>
-                        <li>Avg Grade: {grade}</li>
-                        <li>No. of Students: {students}</li>
+                        <li>Avg Grade: {{course.avggrade}}</li>
+                        <li>No. of Students: {{course.students}}</li>
                     </ul>
                     <h3>Course Chapters</h3>
-                    <ol>
-                        <li>Week 1</li>
-                        <li>Week 2</li>
-                        <li>Week 3</li>
-                        <li>etc.</li>
-                    </ol>
+                    <!-- Not sure if course.chapters is the right syntax for this, check later -->
+                    {% if course.chapters %}
+                        <ol> 
+                            {% for chapter in course.chapters %}
+                                <li>{{chapter}}</li>
+                            {% endfor %}
+                        </ol>
+                    {% else %}
+                        <p> {{course.name}} has no chapters. </p>
+                    {% endif %}
                 </article>
-            </section>
+            {% endfor %}
+        {% else %}
+            <p> You currently do not have any courses. Click the button above to register a course. </p>
+        {% endif %}
 
-        </main>
+    </section>
+{% endblock %}
 
-        <footer>
-            <a href="about.html">About CourseMate</a>
-            <a href="credits.html">Credits</a>
-        </footer>
-    </body>
-
-</html>

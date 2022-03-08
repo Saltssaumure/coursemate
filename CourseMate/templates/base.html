@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+
+<html lang="en">
+
+    <head>
+        <title>
+            {% block title-block %}
+                CourseMate
+            {% endblock %}
+        </title>
+    </head>
+
+    <body>
+        <header>
+            <h1>CourseMate</h1> 
+            {% if user %}
+                <h2>Welcome Back, {{user.name}}!</h2>
+                <img src="" alt="{{user.name}}'s profile picture" />
+            {% endif %}
+        </header>
+
+        <main>
+            {% block body-block %}
+                <p> This is the default content in body-block. </p>
+            {% endblock %}
+        </main>
+    </body>
+
+</html>

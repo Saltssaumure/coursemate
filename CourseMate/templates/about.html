@@ -1,22 +1,17 @@
-<!DOCTYPE html>
-
+{% extends 'base.html'}
 {% load staticfiles %}
 
-<html>
+{% block title-block %}
+    About | CourseMate
+{% endblock %}
 
-    <head>
-        <title>About CourseMate</title>
-    </head>
-
-    <body>
-        <h1>Welcome to CourseMate!</h1>
-        <div>
-            Here is some information about this application: <br />
-           -- to do --<br />
-        </div>
-        <div>
-            <a href="/coursemateapp/">Index</a><br />
-        </div>
-    </body>
-
-</html>
+{% block body-block %}
+<h1>Welcome to CourseMate!</h1>
+    <div>
+        Here is some information about this application: <br />
+    -- to do --<br />
+    </div>
+    <div>
+        <a href="/coursemateapp/">Index</a><br />
+    </div>
+{% endblock %}

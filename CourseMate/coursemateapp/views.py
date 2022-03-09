@@ -13,3 +13,9 @@ def teacher(request):
 
 def student(request):
     return render(request, 'student.html')
+
+def home(request):
+    return render(request, 'home.html')
+
+def signup(request):
+    return render(request, 'signup.html')

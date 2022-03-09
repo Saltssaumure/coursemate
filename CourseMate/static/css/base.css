@@ -19,6 +19,16 @@ h1, h2, h3, h4, h5, h6 {
     overflow-wrap: anywhere;
 }
 
+button, input[type="submit"] {
+    background: var(--color-darkmint);
+    color: var(--color-lightmint);
+    border: 0;
+}   button:hover,button:focus,
+    input[type="submit"]:hover,input[type="submit"]:focus {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 body {
     background: var(--color-lightmint);
     min-height: 100vh;
@@ -70,6 +80,37 @@ body {
     opacity: 1;
     transition: opacity 1s ease-out;
 }
+
+    #main-container {
+        margin-top: 20px;
+    }
+
+        #main-container>section {
+            --section-padding: 0 10px;
+            border: 1px solid var(--color-mint);
+            box-shadow: 0 0 0 1px var(--color-mint) inset; /* required to fix fractional px render bug */
+        }
+
+            #main-container>section>header {
+                background: var(--color-mint);
+                position: relative;
+            }
+
+                #main-container>section>header>h1 {
+                    margin: 0;
+                    padding: var(--section-padding);
+                }
+
+                #main-container>section>header>button {
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    bottom: 0;
+                }
+
+            #main-container>section>p {
+                padding: var(--section-padding);
+            }
 
 #footer {
     position: absolute;

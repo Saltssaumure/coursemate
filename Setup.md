@@ -6,7 +6,7 @@
 
 # Environment setup (first time only)
 - Install [Anaconda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/download.html)
-- `conda create -n rango python=3.9`
+- `conda create -n coursemate python=3.9`
 - `conda activate coursemate`
 - `pip install django==2.2.26`
 - `pip install pillow==9.0.1`
@@ -23,5 +23,6 @@ exit()
 - `conda activate coursemate`
 
 # Run Django local server
+- `cd` to file location
 - `python manage.py runserver` (access at http://127.0.0.1:8000/)
 - `python manage.py 127.0.0.1:5555` (also specifying IP and TCP port)

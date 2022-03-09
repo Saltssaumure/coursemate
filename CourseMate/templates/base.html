@@ -21,7 +21,8 @@
     {% comment %} Also add event listeners to update margin whenever view window size is changed. {% endcomment %}
 
         <header id="banner">
-            <h1><span>Course</span><span>Mate</span></h1> 
+            <h1><span>Course</span><span>Mate</span></h1>
+            <span><a href="{% url 'coursemateapp:logout' %}">Logout</a></span>
             <div id="userinfo">
                 {% if user %}
                     <h2>{{user.name}}, welcome back!</h2>

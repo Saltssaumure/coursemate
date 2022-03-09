@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    About | CourseMate
+{% endblock %}
+
+{% block body-block %}
+<h1>here is the register page!</h1>
+    <div>
+        <form method="POST" action="">
+            {% csrf_token %}
+            {{form.username.label}}
+            {{form.username}}
+
+            {{form.email.label}}
+            {{form.email}}
+
+            {{form.password1.label}}
+            {{form.password1}}
+
+            {{form.password2.label}}
+            {{form.password2}}
+
+            {{form.errors}}
+
+            <input type="submit" name="Create user">
+        </form>
+    </div>
+    <div>
+        <a href="{% url 'coursemateapp:login' %}">Login</a><br />
+    </div>
+{% endblock %}

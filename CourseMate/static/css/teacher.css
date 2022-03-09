@@ -1,0 +1,54 @@
+#reviews-bar {
+    flex-grow: 1;
+}
+
+#courses-bar {
+    flex-grow: 3;
+}
+
+    #courses-header {
+        position: relative;
+    }
+
+        #courses-header>button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--color-darkmint);
+            color: var(--color-lightmint);
+            border: 0;
+        }   #courses-header>button:hover,
+            #courses-header>button:focus {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+#main-container {
+    display: flex;
+    /* flex-flow: row wrap; */
+    /* Figure out a way to allow wrapping for mobile use,
+    while not always turned into columns due to wide paragraphs */
+    /* align-items: stretch;  */
+    gap: 1em;
+    margin-top: 20px;
+}
+
+#main-container>section {
+    --section-padding: 0 10px;
+    border: 1px solid var(--color-mint);
+    box-shadow: 0 0 0 1px var(--color-mint) inset; /* required to fix fractional px render bug */
+}
+
+    #main-container>section>header {
+        background: var(--color-mint);
+    }
+
+        #main-container>section>header>h1 {
+            margin: 0;
+            padding: var(--section-padding);
+        }
+
+    #main-container>section>p {
+        padding: var(--section-padding);
+    }

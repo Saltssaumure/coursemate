@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Write Review | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+        <h1> Write a review</h1>
+        <form id="review-form">
+            <label for="review-id">Teacher ID</label>
+            <input type="text" id="review-id" name="review-id" required>
+            <label for="review-score">Rating out of 10 </label>
+            <input type="text" id="review-score" name="review-score" required> 
+            {% comment %} Slider looks fancy but isn't practical
+            <input type="range" min="0" max="10" step="1" id="review-score" name="review-score" required> {% endcomment %}
+            <label for="review-text">Write review</label>
+            <textarea id="review-text" name="review-text"spellcheck="true"></textarea>
+            <input type="submit" value="Submit" id="review-submit">
+        </form>
+    </div>
+{% endblock %}

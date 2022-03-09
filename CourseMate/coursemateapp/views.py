@@ -22,3 +22,6 @@ def signup(request):
 
 def upload(request):
     return render(request, 'upload.html')
+
+def writereview(request):
+    return render(request, 'writereview.html')

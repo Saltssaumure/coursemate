@@ -6,24 +6,6 @@
     flex-grow: 3;
 }
 
-    #courses-header {
-        position: relative;
-    }
-
-        #courses-header>button {
-            position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            background: var(--color-darkmint);
-            color: var(--color-lightmint);
-            border: 0;
-        }   #courses-header>button:hover,
-            #courses-header>button:focus {
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
 #main-container {
     display: flex;
     /* flex-flow: row wrap; */
@@ -42,11 +24,26 @@
 
     #main-container>section>header {
         background: var(--color-mint);
+        position: relative;
     }
 
         #main-container>section>header>h1 {
             margin: 0;
             padding: var(--section-padding);
+        }
+
+        #main-container>section>header>button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background: var(--color-darkmint);
+            color: var(--color-lightmint);
+            border: 0;
+        }   #main-container>section>header>button:hover,
+            #main-container>section>header>button:focus {
+            text-decoration: underline;
+            cursor: pointer;
         }
 
     #main-container>section>p {

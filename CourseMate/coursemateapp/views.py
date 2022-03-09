@@ -10,3 +10,6 @@ def about(request):
 
 def teacher(request):
     return render(request, 'teacher.html')
+
+def student(request):
+    return render(request, 'student.html')

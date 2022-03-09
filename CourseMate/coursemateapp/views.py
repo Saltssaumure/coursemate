@@ -19,3 +19,6 @@ def home(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
+def upload(request):
+    return render(request, 'upload.html')

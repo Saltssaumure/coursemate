@@ -25,3 +25,6 @@ def upload(request):
 
 def writereview(request):
     return render(request, 'writereview.html')
+
+def export(request):
+    return render(request, 'export.html')

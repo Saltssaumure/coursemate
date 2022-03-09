@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Teacher's Overview | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/overview.css' %}">
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+        <section id="reviews-bar">
+            <header id="reviews-header">
+                <h1>Your Reviews</h1>
+            </header>
+            {% if reviews %}
+                {% for review in reviews %}
+                    <article class="review">
+                        <p>Review text</p>
+                        <ul>
+                            <li>Rating: {{review.rating}}</li>
+                            <li>Date: {{review.date}}</li>
+                        </ul>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p> You currently do not have any reviews. </p>
+            {% endif %}
+        </section>
+
+        <section id="courses-bar">
+            <header id="courses-header">
+                <h1>Your Courses</h1>
+                <button>Register a Course</button>
+            </header>
+
+            {% if courses %}
+                {% for course in courses %}
+                    <article class="course">
+                        <h2>
+                            <a href="{{course.url}}">{{course.name}}</a>
+                        </h2>
+                        <ul>
+                            <li>Avg Grade: {{course.avggrade}}</li>
+                            <li>No. of Students: {{course.students}}</li>
+                        </ul>
+                        <h3>Course Chapters</h3>
+                        <!-- Not sure if course.chapters is the right syntax for this, check later -->
+                        {% if course.chapters %}
+                            <ol> 
+                                {% for chapter in course.chapters %}
+                                    <li>{{chapter}}</li>
+                                {% endfor %}
+                            </ol>
+                        {% else %}
+                            <p> {{course.name}} has no chapters. </p>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p> You currently do not have any courses. Click the button above to register a course. </p>
+            {% endif %}
+
+        </section>
+    </div>
+{% endblock %}
+

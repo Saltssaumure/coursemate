@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+    --color-mint: #63d297;
+    --color-lightmint: #e7f9ef;
+    --color-darkmint: #0a2918;
+    --color-lightyellow: #FEF8E3;
+    --font-header: 'Poppins', sans-serif;
+    --font-paragraph: sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-paragraph);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-header);
+    overflow-wrap: anywhere;
+}
+
+body {
+    background: var(--color-lightmint);
+    min-height: 100vh;
+}
+
+#banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1em;
+    background: var(--color-mint);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    z-index: 10;
+}
+    #banner>h1 {
+        font-size: 5vmax;
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        overflow-wrap: normal;
+    }
+        /* Might remove this later, can't find a colour that contrasts nicely */
+        #banner>h1>span:first-of-type {
+            color: white;
+        }
+
+    /* #userinfo */
+
+        #userinfo>h2 {
+            font-size: 2vmax;
+            margin: 0;
+            display: inline-block;
+        }
+
+/* source: https://css-tricks.com/fading-in-a-page-on-load-with-css-javascript/ */
+#main {
+    background: var(--color-lightmint);
+    padding: 0 10vw;
+    animation: fadeInAnimation ease 3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}   #main.hidden {
+    opacity: 0;
+}   #main.visible {
+    opacity: 1;
+    transition: opacity 1s ease-out;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--color-mint);
+    padding: 1em;
+}
+    
+    /* #footer>nav  */
+
+        #footer>nav>ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+        }

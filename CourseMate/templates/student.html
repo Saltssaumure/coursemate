@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Student's Overview | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/overview.css' %}">
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+        <section id="reviews-bar">
+            <header id="reviews-header">
+                <h1>Your Reviews</h1>
+                <button>Write a review</button>
+            </header>
+            {% if reviews %}
+                {% for review in reviews %}
+                    <article class="review">
+                        <p>Review text</p>
+                        <ul>
+                            <li>Teacher ID: {{review.teacherid}}</li>
+                            <li>Rating: {{review.rating}}</li>
+                            <li>Date: {{review.date}}</li>
+                        </ul>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p> You currently do not have any reviews. </p>
+            {% endif %}
+        </section>
+
+        <section id="courses-bar">
+            <header id="courses-header">
+                <h1>Your Courses</h1>
+                <button>Export your results</button>
+            </header>
+
+            {% if courses %}
+                {% for course in courses %}
+                    <article class="course">
+                        <h2>
+                            <a href="{{course.url}}">{{course.name}}</a>
+                        </h2>
+                        <ul>
+                            <li>Avg Grade: {{course.avggrade}}</li>
+                            <li>Your Grade: {{course.grade}}</li> <!-- this isn't right, change when database built -->
+                        </ul>
+                        <h3>Course Chapters</h3>
+                        <!-- Not sure if course.chapters is the right syntax for this, check later -->
+                        {% if course.chapters %}
+                            <ol> 
+                                {% for chapter in course.chapters %}
+                                    <li>{{chapter}}</li>
+                                    <li><a href="">Submit assessment</a></li>
+                                {% endfor %}
+                            </ol>
+                        {% else %}
+                            <p> {{course.name}} has no chapters. </p>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p> You currently do not have any courses. </p>
+            {% endif %}
+
+        </section>
+    </div>
+{% endblock %}
+

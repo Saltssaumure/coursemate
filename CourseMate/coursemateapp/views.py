@@ -7,3 +7,9 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def teacher(request):
+    return render(request, 'teacher.html')
+
+def student(request):
+    return render(request, 'student.html')

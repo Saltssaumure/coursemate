@@ -14,20 +14,51 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/theme.css' %}">
     </head>
 
-    <body>
-        <header>
-            <h1>CourseMate</h1> 
-            {% if user %}
-                <h2>Welcome Back, {{user.name}}!</h2>
-                <img src="" alt="{{user.name}}'s profile picture" />
-            {% endif %}
+    <body onload="mainMargin()"> 
+    {% comment %} Also add event listeners to update margin whenever view window size is changed. {% endcomment %}
+
+        <header id="banner">
+            <h1><span>Course</span><span>Mate</span></h1> 
+            <div id="userinfo">
+                {% if user %}
+                    <h2>{{user.name}}, welcome back!</h2>
+                    <img src="" alt="{{user.name}}'s profile picture" />
+                {% endif %}
+            </div>
         </header>
 
-        <main>
+        <main id="main">
             {% block body-block %}
                 <p> This is the default content in body-block. </p>
             {% endblock %}
         </main>
+
+        <!-- source: https://css-tricks.com/fading-in-a-page-on-load-with-css-javascript/ -->
+        <script>
+            document.getElementById("main").className = "hidden";
+            function mainMargin() {
+                var bannerHeight = document.getElementById("banner").offsetHeight;
+                var footerHeight = document.getElementById("footer").offsetHeight;
+                var main = document.getElementById("main");
+                main.style.paddingTop = bannerHeight+"px";
+                main.style.paddingBottom = footerHeight+"px";
+                main.className = "visible";
+            }
+        </script>
+
+        <footer id="footer">
+            <nav>
+                <ul>
+                    <li><a href="{% url 'coursemateapp:about' %}">About CourseMate</a></li>
+                    {% comment %} Below link will go to {% url 'coursemateapp:credits' %} {% endcomment %}
+                    <li><a href="">Credits</a></li>
+                </ul>
+            </nav>
+        </footer>
+
+
     </body>
+
+
 
 </html>

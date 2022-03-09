@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Export Grades | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+        <h1> Export grades </h1>
+        <form id="export-form">
+            <label for="export-course">Course</label>
+            <select id="export-course" name="export-course">
+                <option value="all">All courses</option>
+                {% for course in courses %}
+                    <option value="{{course}}">{{course}}</option>
+                {% endfor %}
+            </select>
+            <label for="export-assignment">Assignment</label>
+            <select id="export-assignment">
+                <option value="all">All assignments</option>
+                {% for assignment in course %}
+                    <option value="{{assignment}}">{{assignment}}</option>
+                {% endfor %}
+            </select>
+            <label for="export-file">Export as...</label>
+            <select id="export-assignment">
+                <option value="csv">CSV (Comma-separated values)</option>
+                <option value="pdf">PDF (Portable document format)</option>
+            </select>
+            <input type="submit" value="Export grades" id="export-submit">
+        </form>
+    </div>
+{% endblock %}

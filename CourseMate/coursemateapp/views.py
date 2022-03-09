@@ -90,3 +90,11 @@ def user_logout(request):
     logout(request)
     return redirect('coursemateapp:login')
 
+def upload(request):
+    return render(request, 'upload.html')
+
+def writereview(request):
+    return render(request, 'writereview.html')
+
+def export(request):
+    return render(request, 'export.html')

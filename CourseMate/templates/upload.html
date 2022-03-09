@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Upload  | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+        <h1> Upload assignment work </h1>
+        <form id="upload-form">
+            <label for="upload-course">Course</label>
+            <select id="upload-course" name="upload-course">
+                {% for course in courses %}
+                    <option value="{{course}}">{{course}}</option>
+                {% endfor %}
+            </select>
+            <label for="upload-assignment">Assignment</label>
+            <select id="upload-assignment">
+                {% for assignment in course %}
+                    <option value="{{assignment}}">{{assignment}}</option>
+                {% endfor %}
+            </select>
+            <label for="upload-file">File(s) to upload</label>
+            <input type="file" id="upload-file" multiple>
+            <input type="submit" value="Upload assignment" id="upload-submit">
+        </form>
+    </div>
+{% endblock %}

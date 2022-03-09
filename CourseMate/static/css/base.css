@@ -29,6 +29,18 @@ button, input[type="submit"] {
     cursor: pointer;
 }
 
+form {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-gap: 1em;
+    padding: 1em;
+}
+
+    form>input[type="submit"] {
+        grid-column: 1 / 3;
+        padding: 0.5em 1em;
+    }
+
 body {
     background: var(--color-lightmint);
     min-height: 100vh;

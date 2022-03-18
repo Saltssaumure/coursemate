@@ -22,6 +22,41 @@ def teacher(request):
     return render(request, 'teacher.html')
 
 @login_required(login_url='coursemateapp:login')
+@teacher_only
+def course(request):
+    return render(request, 'course.html')
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def regstudent(request):
+    return render(request, 'regstudent.html')
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def editcoursedet(request):
+    return render(request, 'editcoursedet.html')
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def marking(request):
+    return render(request, 'marking.html')
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def editcoursecont(request):
+    return render(request, 'editcoursecont.html')
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def teacherreview(request):
+    return render(request, 'teacherreview.html')
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def regcourse(request):
+    return render(request, 'regcourse.html')
+
+@login_required(login_url='coursemateapp:login')
 @student_only
 def student(request):
     return render(request, 'student.html')

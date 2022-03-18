@@ -44,6 +44,18 @@ class TeacherTest(TestCase):
     def test_ID_is_ID(self):
         teacher = Teacher.objects.get(id=1)
         expected_ID = "54321"
-        self.assertEqual(str(teacher), expected_ID)       
+        self.assertEqual(str(teacher), expected_ID)  
+
+#test URLS 
+class StudentTestView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # set up non-modified objects used by test methods 
+        Teacher.objects.create(teacher_ID=54321)
+    
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/student/')
+        self.assertEqual(response.status_code, 200)
+
 
 

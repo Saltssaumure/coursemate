@@ -284,6 +284,90 @@ class HasTest(TestCase):
         expected_PDF = "file"
         self.assertEqual(str(has), expected_PDF) 
 
+class HasTestFailCases(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # set up non-modified objects used by test methods
+        teacher_data = Teacher.objects.create(teacher_ID=54321)
+        student_data = Student.objects.create(student_ID=12345)
+        course_data = Course.objects.create(teacher=teacher_data, course_ID=1010, 
+            name="WAD2", description="Web App Development")
+        course_data.student.add(student_data)
+        assignment_data = Assignment.objects.create(course=course_data, name="Tango with Django")
+
+        has = Has.objects.create(student=student_data, assignment=assignment_data, PDF='file', Grade=10)
+
+    def test_has_grade_wrong_max_length(self):
+        has = Has.objects.get(id=1)
+        max_length = has._meta.get_field('Grade').max_length
+        self.assertNotEquals(max_length,5)
+    
+    def test_has_wrong_PDF(self):
+        has = Has.objects.get(id=1)
+        has_PDF = Has._meta.get_field('PDF').verbose_name
+        self.assertNotEqual(has_PDF, 'pdf' )
+    
+    def test_has_wrong_Grade(self):
+        has = Has.objects.get(id=1)
+        has_PDF = Has._meta.get_field('Grade').verbose_name
+        self.assertNotEqual(has_PDF, 'grade' )
+    
+    def test_Grade_isnt_Grade(self):
+        has = Has.objects.get(id=1).Grade
+        expected_Grade = "5.0"
+        self.assertNotEqual(str(has), expected_Grade) 
+    
+    def test_PDF_isnt_PDF(self):
+        has = Has.objects.get(id=1).PDF
+        expected_PDF = "UserFile"
+        self.assertNotEqual(str(has), expected_PDF) 
+
+class ReviewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # set up non-modified objects used by test methods
+        teacher_data = Teacher.objects.create(teacher_ID=54321)
+        student_data = Student.objects.create(student_ID=12345)
+        review_data = Review.objects.create(teacher=teacher_data, student=student_data, score=15.0)
+    
+    def test_review_score(self):
+        review = Review.objects.get(id=1)
+        review_score = review._meta.get_field('score').verbose_name
+        self.assertEquals(review_score, 'score')
+    
+    def test_review_score_max_length(self):
+        review = Review.objects.get(id=1)
+        max_length = review._meta.get_field('score').max_length
+        self.assertEquals(max_length, 10) 
+
+    def test_score_is_score(self):
+        review = Review.objects.get(id=1).score
+        expected_score = "15.0"
+        self.assertEqual(str(review), expected_score) 
+
+class ReviewTestFailCases(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # set up non-modified objects used by test methods
+        teacher_data = Teacher.objects.create(teacher_ID=54321)
+        student_data = Student.objects.create(student_ID=12345)
+        review_data = Review.objects.create(teacher=teacher_data, student=student_data, score=15.0)
+    
+    def test_review_isnt_score(self):
+        review = Review.objects.get(id=1)
+        review_score = review._meta.get_field('score').verbose_name
+        self.assertNotEquals(review_score, 'Score')
+    
+    def test_review_score_wrong_max_length(self):
+        review = Review.objects.get(id=1)
+        max_length = review._meta.get_field('score').max_length
+        self.assertNotEquals(max_length, 15) 
+
+    def test_score_isnt_score(self):
+        review = Review.objects.get(id=1).score
+        expected_score = "10.0"
+        self.assertNotEqual(str(review), expected_score) 
+
 
 
 

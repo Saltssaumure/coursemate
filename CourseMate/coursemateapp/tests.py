@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from coursemateapp.models import Student, Teacher, Course, Assignment
+from coursemateapp.models import Student, Teacher, Course, Assignment, Has, Review
 
 # Create your tests here.
     
@@ -142,9 +142,9 @@ class CourseTest(TestCase):
         self.assertEquals(max_length, 1000)
     
     def test_course_description_is_description(self):
-        course = Course.objects.get(id=1)
+        course = Course.objects.get(id=1).description
         expected_desc = "Web App Development"
-        self.assertEquals(expected_desc, "Web App Development")
+        self.assertEquals(str(course), "Web App Development")
 
 class CourseTestFailCases(TestCase):
     @classmethod
@@ -168,7 +168,7 @@ class CourseTestFailCases(TestCase):
         self.assertNotEquals(max_length, 20)
 
     def test_ID_isnt_ID(self):
-        course_ID = Course.objects.get(id=1)
+        course_ID = Course.objects.get(id=1).course_ID
         expected_ID = "3333"
         self.assertNotEqual(str(course_ID), expected_ID) 
 
@@ -200,9 +200,9 @@ class CourseTestFailCases(TestCase):
         self.assertNotEquals(max_length, 50)
     
     def test_course_description_isnt_description(self):
-        course = Course.objects.get(id=1)
+        course = Course.objects.get(id=1).description
         expected_desc = "Algorithms and Data Structures 2"
-        self.assertNotEquals(expected_desc, "Web App Development")
+        self.assertNotEquals(str(course), expected_desc)
     
 class AssignmentTest(TestCase):
     @classmethod
@@ -221,7 +221,7 @@ class AssignmentTest(TestCase):
         self.assertEquals(max_length, 20) 
 
     def test_name_is_name(self):
-        assignment = Assignment.objects.get(id=1)
+        assignment = Assignment.objects.get(id=1).name
         expected_name = "Tango with Django"
         self.assertEqual(str(assignment), expected_name)
 
@@ -242,10 +242,49 @@ class AssignmentTestFailCases(TestCase):
         self.assertNotEquals(max_length, 30) 
 
     def test_name_isnt_name(self):
-        assignment = Assignment.objects.get(id=1)
+        assignment = Assignment.objects.get(id=1).name
         expected_name = "Group Project"
         self.assertNotEqual(str(assignment), expected_name)
+  
+class HasTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        # set up non-modified objects used by test methods
+        teacher_data = Teacher.objects.create(teacher_ID=54321)
+        student_data = Student.objects.create(student_ID=12345)
+        course_data = Course.objects.create(teacher=teacher_data, course_ID=1010, 
+            name="WAD2", description="Web App Development")
+        course_data.student.add(student_data)
+        assignment_data = Assignment.objects.create(course=course_data, name="Tango with Django")
+
+        has = Has.objects.create(student=student_data, assignment=assignment_data, PDF='file', Grade=10)
+
+    def test_has_grade_max_length(self):
+        has = Has.objects.get(id=1)
+        max_length = has._meta.get_field('Grade').max_length
+        self.assertEquals(max_length,10)
     
+    def test_has_PDF(self):
+        has = Has.objects.get(id=1)
+        has_PDF = Has._meta.get_field('PDF').verbose_name
+        self.assertEqual(has_PDF, 'PDF' )
+    
+    def test_has_Grade(self):
+        has = Has.objects.get(id=1)
+        has_PDF = Has._meta.get_field('Grade').verbose_name
+        self.assertEqual(has_PDF, 'Grade' )
+    
+    def test_Grade_is_Grade(self):
+        has = Has.objects.get(id=1).Grade
+        expected_Grade = "10.0"
+        self.assertEqual(str(has), expected_Grade) 
+    
+    def test_PDF_is_PDF(self):
+        has = Has.objects.get(id=1).PDF
+        expected_PDF = "file"
+        self.assertEqual(str(has), expected_PDF) 
+
+
 
 
 

@@ -75,7 +75,7 @@ def student_register(request):
             Student.objects.create(
                 user=user, student_ID=username
             )
-            messages.success(request, 'Account was created for student' + username)
+            messages.success(request, 'Account was created for student: ' + username)
             return redirect('coursemateapp:login')
     context = {'form': form}
     return render(request, 'register.html', context)
@@ -94,7 +94,7 @@ def teacher_register(request):
             Teacher.objects.create(
                 user=user, teacher_ID=username
             )
-            messages.success(request, 'Account was created for teacher' + username)
+            messages.success(request, 'Account was created for teacher: ' + username)
             return redirect('coursemateapp:login')
     context = {'form': form}
     return render(request, 'register.html', context)

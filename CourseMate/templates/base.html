@@ -22,11 +22,14 @@
 
         <header id="banner">
             <h1><span>Course</span><span>Mate</span></h1>
-            <span><a href="{% url 'coursemateapp:logout' %}">Logout</a></span>
             <div id="userinfo">
-                {% if user %}
-                    <h2>{{user.name}}, welcome back!</h2>
-                    <img src="" alt="{{user.name}}'s profile picture" />
+                {% if user.is_authenticated %}
+                    <span><a href="{% url 'coursemateapp:logout' %}">Logout</a></span>
+                    <h2>welcome back, {{user.first_name}}!</h2>
+                    <img src="" class="profile_photo" alt="{{user.first_name}}'s profile picture" />
+                {% else %}
+                    <h2>You are not logged in</h2>
+                    <img src="{% static 'image/base.jpg' %}" class="profile_photo" alt="not login yet" />
                 {% endif %}
             </div>
         </header>

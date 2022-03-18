@@ -2,12 +2,17 @@
 {% load staticfiles %}
 
 {% block title-block %}
-    About | CourseMate
+    Login | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 {% endblock %}
 
 {% block body-block %}
-<h1>here is the login page!</h1>
-    <div>
+<div class="login">
+    <h1>here is the login page!</h1>
+    <div class="login-form">
         <form method="POST" action="">
         {% csrf_token %}
         <input type="text" name="username" placeholder="username...">
@@ -22,14 +27,8 @@
         <a href="{% url 'coursemateapp:student-register' %}">Register as a student</a><br />
         <a href="{% url 'coursemateapp:teacher-register' %}">Register as a teacher</a><br />
     </div>
+</div>
 {% endblock %}
-<h3> here is the login page!!!!!!!!</h3>
-<form method="POST" action="">
-    {% csrf_token %}
-    <input type="text" name="username" placeholder="username...">
-    <input type="password" name="password" placeholder="password...">
-    <input type="submit" value="submit">
-</form>
 {% for message in messages %}
     <p id="messages">{{message}}</p>
 {% endfor %}

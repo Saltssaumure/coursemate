@@ -122,11 +122,6 @@ class LoginPageViewTest(TestCase):
         test_user1.save()
         test_user2.save()
 
-        group = Group(name="teacher")
-        group.save() # create a sample group.
-        user = User.objects.get(username="teacher1") # get Some User.
-        user.groups.add(group) # Add User 'Johndoe' to a Group.
-
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/coursemateapp/login/')
         self.assertEqual(response.status_code, 200)
@@ -151,9 +146,9 @@ class StudentViewTest(TestCase):
         test_user2.save()
 
         group = Group(name="student")
-        group.save() # create a sample group.
-        user = User.objects.get(username="student1") # get Some User.
-        user.groups.add(group) # Add User 'Johndoe' to a Group.
+        group.save()
+        user = User.objects.get(username="student1") 
+        user.groups.add(group) 
 
     def test__for_login_restriction_permission_and_template(self):
         # try to call the Restricted View as Anonymous
@@ -171,6 +166,63 @@ class StudentViewTest(TestCase):
         response = self.client.get(reverse('coursemateapp:student'))
         self.assertEqual(response.status_code, 200)
     
+class StudentRestrictedViewsTest(TestCase):
+    def setUp(self):
+        # create two students 
+        test_user1 = User.objects.create_user(username='student1', password='3M<IKHSDFkds+tiM!')
+        test_user2 = User.objects.create_user(username='student2', password='8MN1vDSFJN183?')
+
+        test_user1.save()
+        test_user2.save()
+
+        group = Group(name="student")
+        group.save()
+        user = User.objects.get(username="student1") 
+        user.groups.add(group) 
+    
+    # upload assessment view 
+    def test_view_url_exists_at_desired_location_upload(self):
+        response = self.client.get('/coursemateapp/student/upload-assessment')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name_upload(self):
+        response = self.client.get(reverse('coursemateapp:upload'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template_upload(self):
+        response = self.client.get(reverse('coursemateapp:upload'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'upload.html')
+    
+    # write review view
+    def test_view_url_exists_at_desired_location_review(self):
+        response = self.client.get('/coursemateapp/student/write-review')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name_review(self):
+        response = self.client.get(reverse('coursemateapp:writereview'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template_review(self):
+        response = self.client.get(reverse('coursemateapp:writereview'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'writereview.html')
+    
+    #export grade view 
+    def test_view_url_exists_at_desired_location_review(self):
+        response = self.client.get('/coursemateapp/student/export-grade')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name_review(self):
+        response = self.client.get(reverse('coursemateapp:export'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template_review(self):
+        response = self.client.get(reverse('coursemateapp:export'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'export.html')
+    
+
     
     
     

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import django.utils.timezone as timezone
 # Create your models here.
 
 
@@ -53,7 +54,8 @@ class Has(models.Model):
 class Review(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
-    score = models.FloatField(max_length=10)
+    rating = models.FloatField(max_length=10)
+    date = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.student.student_ID + ' to ' + self.teacher.teacher_ID

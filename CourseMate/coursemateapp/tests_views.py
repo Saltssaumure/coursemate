@@ -34,7 +34,16 @@ class AboutViewTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'about.html')
     
-class TeacherRegisterView(TestCase):
+class TeacherRegisterViewTest(TestCase):
+
+    def setUp(self):
+        # create two teachers 
+        test_user1 = User.objects.create_user(username='teacher1', password='3M<IKHSDFkds+tiM!')
+        test_user2 = User.objects.create_user(username='teacher2', password='8MN1vDSFJN183?')
+
+        test_user1.save()
+        test_user2.save()
+
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/coursemateapp/teacher-register/')
         self.assertEqual(response.status_code, 200)
@@ -47,8 +56,33 @@ class TeacherRegisterView(TestCase):
         response = self.client.get(reverse('coursemateapp:teacher-register'))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register.html')
+    
+    def test__for_login_restriction_permission_and_template(self):
+        # try to call the Restricted View as Anonymous
+        response = self.client.get(reverse('coursemateapp:teacher'))
+        # check for Login Prompt Redirection
+        self.assertRedirects(response, '/coursemateapp/login/?next=/coursemateapp/teacher/')
+        self.user = User.objects.get(username="teacher1")
+        # login with the Client
+        login = self.client.login(username='teacher`', password='wrong')
+        # check user can't login with wrong password
+        self.assertFalse(login)
+        login = self.client.login(username='teacher1', password='3M<IKHSDFkds+tiM!')
+        # check user is logged in
+        self.assertTrue(login)
+        # check for username
+        self.assertEqual(self.user.username, 'teacher1')
 
-class StudentRegisterView(TestCase):
+class StudentRegisterViewTest(TestCase):
+
+    def setUp(self):
+        # create two students 
+        test_user1 = User.objects.create_user(username='student1', password='3M<IKHSDFkds+tiM!')
+        test_user2 = User.objects.create_user(username='student2', password='8MN1vDSFJN183?')
+
+        test_user1.save()
+        test_user2.save()
+
     def test_view_url_exists_at_desired_location(self):
         response = self.client.get('/coursemateapp/student-register/')
         self.assertEqual(response.status_code, 200)
@@ -62,6 +96,50 @@ class StudentRegisterView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'register.html')
 
+    def test__for_login_restriction_permission_and_template(self):
+        # try to call the Restricted View as Anonymous
+        response = self.client.get(reverse('coursemateapp:student'))
+        # check for Login Prompt Redirection
+        self.assertRedirects(response, '/coursemateapp/login/?next=/coursemateapp/student/')
+        self.user = User.objects.get(username="student1")
+        # login with the Client
+        login = self.client.login(username='student1', password='wrong')
+        # check user can't login with wrong password
+        self.assertFalse(login)
+        login = self.client.login(username='student1', password='3M<IKHSDFkds+tiM!')
+        # check user is logged in
+        self.assertTrue(login)
+        # check for username
+        self.assertEqual(self.user.username, 'student1')
+
+class LoginPageViewTest(TestCase):
+
+    def setUp(self):
+        # create two users 
+        test_user1 = User.objects.create_user(username='student1', password='3M<IKHSDFkds+tiM!')
+        test_user2 = User.objects.create_user(username='teacher1', password='8MN1vDSFJN183?')
+
+        test_user1.save()
+        test_user2.save()
+
+        group = Group(name="teacher")
+        group.save() # create a sample group.
+        user = User.objects.get(username="teacher1") # get Some User.
+        user.groups.add(group) # Add User 'Johndoe' to a Group.
+
+    def test_view_url_exists_at_desired_location(self):
+        response = self.client.get('/coursemateapp/login/')
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        response = self.client.get(reverse('coursemateapp:login'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_view_uses_correct_template(self):
+        response = self.client.get(reverse('coursemateapp:login'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'login.html')
+
 class StudentViewTest(TestCase):
 
     def setUp(self):
@@ -71,6 +149,11 @@ class StudentViewTest(TestCase):
 
         test_user1.save()
         test_user2.save()
+
+        group = Group(name="student")
+        group.save() # create a sample group.
+        user = User.objects.get(username="student1") # get Some User.
+        user.groups.add(group) # Add User 'Johndoe' to a Group.
 
     def test__for_login_restriction_permission_and_template(self):
         # try to call the Restricted View as Anonymous
@@ -84,10 +167,9 @@ class StudentViewTest(TestCase):
         self.assertTrue(login)
         # check for username
         self.assertEqual(self.user.username, 'student1')
-        # call the Restricted View as logged in User again but without Permission
-        # response = self.client.get(reverse('coursemateapp:student'))
-        # # Check for HTTPResponseForbidden
-        # self.assertEqual(response.status_code, 403)
+        #call the Restricted View as logged in User with Permissions 
+        response = self.client.get(reverse('coursemateapp:student'))
+        self.assertEqual(response.status_code, 200)
     
     
     

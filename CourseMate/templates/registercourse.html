@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Register Course | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+        <h1> Register Course</h1>
+        <form id="course-form">
+            <label for="course_name">Course Name</label>
+            <input type="text" id="course_name" name="course_name" required>
+
+            <label for="course_ID">Course ID</label>
+            <input type="text" id="course_ID" name="course_name" required>
+
+            <label for="course_description">Course description</label>
+            <textarea id="course_description" name="course_description"spellcheck="true"></textarea>
+
+            <input type="submit" value="Submit" id="review-submit">
+        </form>
+    </div>
+{% endblock %}

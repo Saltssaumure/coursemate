@@ -52,11 +52,6 @@ def teacherreview(request):
     return render(request, 'teacherreview.html')
 
 @login_required(login_url='coursemateapp:login')
-@teacher_only
-def regcourse(request):
-    return render(request, 'regcourse.html')
-
-@login_required(login_url='coursemateapp:login')
 @student_only
 def student(request):
     return render(request, 'student.html')
@@ -125,6 +120,9 @@ def user_logout(request):
     logout(request)
     return redirect('coursemateapp:login')
 
+def registercourse(request):
+    return render(request, 'registercourse.html')
+
 def upload(request):
     return render(request, 'upload.html')
 
@@ -133,3 +131,4 @@ def writereview(request):
 
 def export(request):
     return render(request, 'export.html')
+

@@ -14,7 +14,7 @@
         <section id="reviews-bar">
             <header id="reviews-header">
                 <h1>Your Reviews</h1>
-                <button onclick="window.location.href='{% url 'coursemateapp:writereview' %}'">Write a review</button>
+                <button onclick="window.location.href='/student/write-review'">Write a review</button>
             </header>
             {% if reviews %}
                 {% for review in reviews %}
@@ -35,7 +35,7 @@
         <section id="courses-bar">
             <header id="courses-header">
                 <h1>Your Courses</h1>
-                <button onclick="window.location.href='{% url 'coursemateapp:export' %}'">Export your results</button>
+                <button onclick="window.location.href='student/export-grade'">Export your results</button>
             </header>
 
             {% if courses %}

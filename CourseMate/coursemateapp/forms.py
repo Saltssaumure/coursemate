@@ -12,5 +12,5 @@ class CreateUserForm(UserCreationForm):
 
 class CreateCourseForm(UserCreationForm):
     class Meta:
-        model = Course #should fix when merged
-        fields = ['name', 'description']
+        model = Course 
+        fields = ['couse_ID', 'name', 'description']

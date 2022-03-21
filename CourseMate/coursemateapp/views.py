@@ -23,8 +23,17 @@ def teacher(request):
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def course(request):
-    return render(request, 'course.html')
+def course(request, course_name_slug):
+    context_dict = {}
+    try:
+        course = Course.objects.get(course_name=course_name_slug)
+        students = Course.objects.get(students) #Almost definitely wrong need to find another way
+        context_dict['course']=course
+        context_dict['students'] = students
+    except Course.DoesNotExist:
+        context_dict['course'] = None
+        context_dict['students'] = None
+    return render(request, 'course.html', context=context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
@@ -59,8 +68,9 @@ def regcourse(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             course = form.save()
-            name = form.cleaned_data.get("name")
-            desc = form.cleaned_data.get("description")
+            ID = form.cleaned_data.get("course_ID")
+            name = form.cleaned_data.get("course_name")
+            desc = form.cleaned_data.get("course_description")
             group = Group.objects.get(name='course')
             course.groups.add(group)
             Course.objects.create(
@@ -72,7 +82,6 @@ def regcourse(request):
     return render(request, 'regcourse.html')
 
 @login_required(login_url='coursemateapp:login')
-
 @student_only
 def student(request):
     return render(request, 'student.html')
@@ -140,9 +149,6 @@ def loginpage(request):
 def user_logout(request):
     logout(request)
     return redirect('coursemateapp:login')
-
-def registercourse(request):
-    return render(request, 'registercourse.html')
 
 def upload(request):
     return render(request, 'upload.html')

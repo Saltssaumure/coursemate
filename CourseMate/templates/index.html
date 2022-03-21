@@ -1,6 +1,13 @@
-<!DOCTYPE html>
-
+{% extends 'base.html' %}
 {% load staticfiles %}
+
+{% block title-block %}
+Register Course | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
 
 <html>
 

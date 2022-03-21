@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
 from .forms import CreateUserForm
-from .models import Student, Teacher
+from .models import Course, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
 def index(request):
@@ -54,6 +54,21 @@ def teacherreview(request):
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def regcourse(request):
+    form = CreateUserForm()
+    if request.method == "POST":
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            course = form.save()
+            name = form.cleaned_data.get("name")
+            desc = form.cleaned_data.get("description")
+            group = Group.objects.get(name='course')
+            course.groups.add(group)
+            Course.objects.create(
+                name = name, description=desc
+            )
+            messages.success(request, 'Course was created for' + name)
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
     return render(request, 'regcourse.html')
 
 @login_required(login_url='coursemateapp:login')

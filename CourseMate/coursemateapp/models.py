@@ -60,5 +60,3 @@ class Review(models.Model):
     def __str__(self):
         return self.student.student_ID + ' to ' + self.teacher.teacher_ID
 
-
-

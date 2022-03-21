@@ -72,6 +72,7 @@ def regcourse(request):
     return render(request, 'regcourse.html')
 
 @login_required(login_url='coursemateapp:login')
+
 @student_only
 def student(request):
     return render(request, 'student.html')
@@ -90,7 +91,7 @@ def student_register(request):
             Student.objects.create(
                 user=user, student_ID=username
             )
-            messages.success(request, 'Account was created for student' + username)
+            messages.success(request, 'Account was created for student: ' + username)
             return redirect('coursemateapp:login')
     context = {'form': form}
     return render(request, 'register.html', context)
@@ -109,7 +110,7 @@ def teacher_register(request):
             Teacher.objects.create(
                 user=user, teacher_ID=username
             )
-            messages.success(request, 'Account was created for teacher' + username)
+            messages.success(request, 'Account was created for teacher: ' + username)
             return redirect('coursemateapp:login')
     context = {'form': form}
     return render(request, 'register.html', context)
@@ -140,6 +141,9 @@ def user_logout(request):
     logout(request)
     return redirect('coursemateapp:login')
 
+def registercourse(request):
+    return render(request, 'registercourse.html')
+
 def upload(request):
     return render(request, 'upload.html')
 
@@ -148,3 +152,4 @@ def writereview(request):
 
 def export(request):
     return render(request, 'export.html')
+

@@ -33,7 +33,8 @@
         <section id="courses-bar">
             <header id="courses-header">
                 <h1>Your Courses</h1>
-                <button><a href="/coursemateapp/teacher/register-course">Register a Course </a></button>
+
+                <button onclick="window.location.href='{% url 'coursemateapp:registercourse' %}'">Register a Course</button>
             </header>
 
             {% if courses %}

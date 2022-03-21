@@ -59,6 +59,12 @@ body {
     align-items: baseline;
     z-index: 10;
 }
+    .profile_photo {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
     #banner>h1 {
         font-size: 5vmax;
         margin: 0;
@@ -142,3 +148,5 @@ body {
             display: flex;
             justify-content: space-between;
         }
+
+

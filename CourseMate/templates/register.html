@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title-block %}
-    About | CourseMate
+    Register | CourseMate
 {% endblock %}
 
 {% block body-block %}
@@ -12,6 +12,12 @@
             {% csrf_token %}
             {{form.username.label}}
             {{form.username}}
+
+            {{ form.first_name.label }}
+            {{ form.first_name }}
+
+            {{ form.last_name.label }}
+            {{ form.last_name }}
 
             {{form.email.label}}
             {{form.email}}

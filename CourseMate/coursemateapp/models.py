@@ -54,6 +54,7 @@ class Has(models.Model):
 class Review(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
+    review_ID = models.CharField(max_length=15)
     rating = models.FloatField(max_length=10)
     date = models.DateTimeField(default=timezone.now)
 

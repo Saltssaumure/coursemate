@@ -13,4 +13,4 @@ class CreateUserForm(UserCreationForm):
 class CreateCourseForm(UserCreationForm):
     class Meta:
         model = Course 
-        fields = ['couse_ID', 'name', 'description']
+        fields = ['course_ID', 'name', 'description']

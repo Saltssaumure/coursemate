@@ -2,21 +2,16 @@
 {% load staticfiles %}
 
 {% block title-block %}
-Register Course | CourseMate
+Index | CourseMate
 {% endblock %}
 
 {% block stylesheet-block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
 {% endblock %}
 
-<html>
-
-    <head>
-        <title>CourseMate</title>
-    </head>
-
-    <body>
-        <h1>Welcome to CourseMate!</h1>
+{% block body-block %}
+    <h1>Welcome to CourseMate!</h1>
+    <div id="main-container">
         <div>
             An application for students and teachers <br />
             <strong>{{ boldmessage }}</strong><br />
@@ -24,6 +19,5 @@ Register Course | CourseMate
         <div>
             <a href="/coursemateapp/about/">About</a><br />
         </div>
-    </body>
-
-</html>
+    </div>
+{% endblock %}

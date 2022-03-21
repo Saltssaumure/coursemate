@@ -2,9 +2,25 @@
 {% load staticfiles %}
 
 {% block title-block %}
-Review Teacher | CourseMate
+    {% if review %}
+        Teacher Review {{review.review_ID}}| CourseMate
+    {% else %}
+        Unkown Review | CourseMate
+    {% endif %}
 {% endblock %}
 
 {% block stylesheet-block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
 {% endblock %}
+
+{% block body-block %}
+<div id="main-container">
+    {% if review %}
+        {{review.date}}
+        {{review.rating}}
+        {{review.teacher}}
+    {% else %}
+        No review found
+    {% endif %}
+</div>
+{%endblock%}

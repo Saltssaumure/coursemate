@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
 from .forms import CreateUserForm
-from .models import Course, Review, Student, Teacher
+from .models import Assignment, Course, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
 def index(request):
@@ -52,8 +52,17 @@ def marking(request):
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def editcoursecont(request):
-    return render(request, 'editcoursecont.html')
+def editcoursecont(request, course_name_slug):
+    context_dict = {}
+    try:
+        assignment = Assignment.objects.get(course = course_name_slug)
+        course = Course.objects.get(course = course_name_slug)
+        context_dict["assignments"] = assignment
+        context_dict["course"] = course
+    except Assignment.DoesNotExist:   
+        context_dict["assignments"] = None
+        context_dict["course"] = None
+    return render(request, 'editcoursecont.html', context=context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only

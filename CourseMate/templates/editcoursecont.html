@@ -2,9 +2,26 @@
 {% load staticfiles %}
 
 {% block title-block %}
-Register Course | CourseMate
+Edit Course Content | CourseMate
 {% endblock %}
 
 {% block stylesheet-block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body_block %}
+    {% if course %}
+        <h1>{{ course.name }}</h1>
+        {% if assignments %}
+            <ul>
+                {% for assignment in assignments %}
+                <li>{{ assignment.name }}</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <strong>No pages currently in category.</strong>
+        {% endif %}
+    {% else %}
+        <h1> Unkown Course </h1>
+    {% endif %}
 {% endblock %}

@@ -10,18 +10,25 @@ Edit Course Content | CourseMate
 {% endblock %}
 
 {% block body_block %}
-    {% if course %}
-        <h1>{{ course.name }}</h1>
-        {% if assignments %}
-            <ul>
-                {% for assignment in assignments %}
-                <li>{{ assignment.name }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <strong>No pages currently in category.</strong>
+    <div id="main-container">
+        {% if course %}
+            <section id="assignments-bar">
+                <header id="assignments-header">
+                    <h1>Assignments for {{ course.name }}</h1>
+                </header>
+                {% if assignments %}
+                    <ul>
+                        {% for assignment in assignments %}
+                        <li>{{ assignment.name }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <strong>No assignments currently in course.</strong>
+                {% endif %}
+            </section>
+        {% else %}
+            <h1> Unkown Course </h1>
         {% endif %}
-    {% else %}
-        <h1> Unkown Course </h1>
-    {% endif %}
+    </div>
+    <!--Insert form to create an assignment-->
 {% endblock %}

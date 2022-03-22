@@ -5,7 +5,7 @@
     {% if category %}
         {{course.course_ID}} | CourseMate
     {% else %}
-        Unknown Category
+        Unknown Course
     {% endif %}
 {% endblock %}
 
@@ -40,12 +40,11 @@
                 <button onclick="window.location.href='teacher/<slug:course_name_slug>/marking'">Go to marking</button>
             </ul>
             <ul>
-                <button onclick="window.location.href='teacher/<slug:course_name_slug>/marking'">Go to marking</button>
-            </ul>
-            <ul>
                 <button onclick="window.location.href='teacher/<slug:course_name_slug>/edit-course-cont'">Edit course content</button>
             </ul>
         </div>
+    {% else %}
+        <header>Unknown Course</header>
     {% endif %}
     </div>
 {% endblock %}

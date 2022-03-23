@@ -73,8 +73,6 @@ def editcoursecont(request, course_name_slug):
             assignment = form.save()
             assign_name = form.cleaned_data.get("name")
             assign_desc = form.cleaned_data.get("description")
-            group = Group.objects.get(name='assignment')
-            assignment.groups.add(group)
             Assignment.objects.create(
                 name=assign_name, description = assign_desc, course=course_name_slug
             )
@@ -112,8 +110,6 @@ def regcourse(request):
             ID = form.cleaned_data.get("course_ID")
             name = form.cleaned_data.get("name")
             desc = form.cleaned_data.get("description")
-            group = Group.objects.get(name='course')
-            course.groups.add(group)
             Course.objects.create(
                 name = name, description=desc
             )

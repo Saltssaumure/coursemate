@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
-from .forms import CreateUserForm
+from .forms import CreateAssignmentForm, CreateUserForm
 from .models import Assignment, Course, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
@@ -50,10 +50,27 @@ def editcoursedet(request):
 def marking(request):
     return render(request, 'marking.html')
 
+def markAssign(request):
+    return render(request, 'marking.html')
+
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def editcoursecont(request, course_name_slug):
     context_dict = {}
+    form = CreateAssignmentForm()
+    if request.method == "POST":
+        form = CreateAssignmentForm(request.POST)
+        if form.is_valid():
+            assignment = form.save()
+            assign_name = form.cleaned_data.get("name")
+            assign_desc = form.cleaned_data.get("description")
+            group = Group.objects.get(name='assignment')
+            assignment.groups.add(group)
+            Assignment.objects.create(
+                name=assign_name, description = assign_desc, course=course_name_slug
+            )
+            messages.success(request, 'Assignment was created for course: ' + course_name_slug)
+    context_dict['form'] =  form
     try:
         assignment = Assignment.objects.get(course = course_name_slug)
         course = Course.objects.get(course = course_name_slug)

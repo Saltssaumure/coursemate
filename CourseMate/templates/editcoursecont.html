@@ -11,6 +11,7 @@ Edit Course Content | CourseMate
 
 {% block body_block %}
     <div id="main-container">
+        <div id = "assignments-list">
         {% if course %}
             <section id="assignments-bar">
                 <header id="assignments-header">
@@ -29,6 +30,19 @@ Edit Course Content | CourseMate
         {% else %}
             <h1> Unkown Course </h1>
         {% endif %}
+        </div>
+        <!--Insert form to create an assignment-->
+        <div id = "make assignment">
+            <form id="assignment-form">
+                <label for="name">Assignment Name</label>
+                <input type="text" id="name" name="name" required>
+            
+                <label for="description">Assignment Description</label>
+                <textarea id="description" name="description" spellcheck="true"></textarea>
+            
+                <input type="submit" value="Submit" id="course-submit">
+            </form>
+        </div>
     </div>
-    <!--Insert form to create an assignment-->
+
 {% endblock %}

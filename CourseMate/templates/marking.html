@@ -2,9 +2,36 @@
 {% load staticfiles %}
 
 {% block title-block %}
-Register Course | CourseMate
+Marking | CourseMate
 {% endblock %}
 
 {% block stylesheet-block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body_block %}
+<div id="main-container">
+    <div id="assignments-list">
+        {% if course %}
+        <section id="assignments-bar">
+            <header id="assignments-header">
+                <h1>Assignments for {{ course.name }}</h1>
+            </header>
+            {% if assignments %}
+            <ul>
+                {% for assignment in assignments %}
+                <li>{{ assignment.name }}</li>
+                <button onclick="window.location.href='teacher/{{course.name}}/marking/{{assignment.name}}'">Mark this assignment</button>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <strong>No assignments currently in course.</strong>
+            <h2></h2> <!--Insert link to edit course details-->
+            {% endif %}
+        </section>
+        {% else %}
+        <h1> Unkown Course </h1>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

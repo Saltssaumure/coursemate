@@ -37,6 +37,7 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
+    description = models.CharField(max_length=1000)
 
     def __str__(self):
         return self.name
@@ -55,7 +56,7 @@ class Has(models.Model):
 class Review(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
-    review_ID = models.CharField(max_length=15)
+    review_ID = models.CharField(max_length=15, null=True)
     rating = models.FloatField(max_length=10)
     date = models.DateTimeField(default=timezone.now)
 

@@ -18,4 +18,4 @@ class CreateCourseForm(UserCreationForm):
 class CreateAssignmentForm(UserCreationForm):
     class Meta:
         model = Assignment 
-        fields = ['name', 'course_ID', 'description', 'students']
+        fields = ['name', 'course', 'description', 'student']

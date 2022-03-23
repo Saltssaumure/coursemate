@@ -37,7 +37,7 @@ class Assignment(models.Model):
     course = models.ForeignKey(Course, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, null=True)
 
     def __str__(self):
         return self.name

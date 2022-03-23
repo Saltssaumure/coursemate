@@ -24,9 +24,10 @@ def teacher(request):
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def course(request, course_name_slug):
+    print("Im in course")
     context_dict = {}
     try:
-        course = Course.objects.get(course_name=course_name_slug)
+        course = Course.objects.get(name=course_name_slug)
         students = Course.objects.get(students) #Almost definitely wrong need to find another way
         context_dict['course']=course
         context_dict['students'] = students
@@ -102,6 +103,7 @@ def teacherreview(request, review_ID_slug):
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def regcourse(request):
+    print("Im at reg course")
     form = CreateUserForm()
     if request.method == "POST":
         form = CreateUserForm(request.POST)
@@ -116,7 +118,7 @@ def regcourse(request):
             messages.success(request, 'Course was created for' + name)
             return redirect('coursemateapp:teacher')
     context = {'form': form}
-    return render(request, 'regcourse.html')
+    return render(request, 'regcourse.html', context=context)
 
 @login_required(login_url='coursemateapp:login')
 @student_only
@@ -131,7 +133,6 @@ def student_register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get("username")
-
             group = Group.objects.get(name='student')
             user.groups.add(group)
             Student.objects.create(

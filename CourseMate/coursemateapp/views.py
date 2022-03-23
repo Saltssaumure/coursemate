@@ -47,8 +47,17 @@ def editcoursedet(request):
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def marking(request):
-    return render(request, 'marking.html')
+def marking(request, course_name_slug):
+    context_dict = {}
+    try:
+        assignment = Assignment.objects.get(course = course_name_slug)
+        course = Course.objects.get(course = course_name_slug)
+        context_dict["assignments"] = assignment
+        context_dict["course"] = course
+    except Assignment.DoesNotExist:   
+        context_dict["assignments"] = None
+        context_dict["course"] = None
+    return render(request, 'marking.html', context=context_dict)
 
 def markAssign(request):
     return render(request, 'marking.html')

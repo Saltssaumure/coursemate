@@ -19,3 +19,8 @@ class CreateAssignmentForm(UserCreationForm):
     class Meta:
         model = Assignment 
         fields = ['name', 'course', 'description', 'student']
+
+class CreateHasForm(UserCreationForm):
+    class Meta:
+        model = Assignment 
+        fields = ['assignment', 'Grade']

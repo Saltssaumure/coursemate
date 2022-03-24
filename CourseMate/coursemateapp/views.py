@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
-from .forms import CreateAssignmentForm, CreateUserForm
-from .models import Assignment, Course, Review, Student, Teacher
+from .forms import CreateAssignmentForm, CreateHasForm, CreateUserForm
+from .models import Assignment, Course, Has, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
 def index(request):
@@ -60,8 +60,32 @@ def marking(request, course_name_slug):
         context_dict["course"] = None
     return render(request, 'marking.html', context=context_dict)
 
-def markAssign(request):
-    return render(request, 'marking.html')
+def markAssign(request, course_name_slug, assignment_name_slug):
+    context_dict = {}
+    form = CreateHasForm()
+    if request.method == "POST":
+        form = CreateHasForm(request.POST)
+        if form.is_valid():
+            has = form.save()
+            assign_name = form.cleaned_data.get("assignment_name")
+            assign_Grade = form.cleaned_data.get("grade")
+            Has.objects.create(
+                assignment=assign_name, Grade = assign_Grade, course=course_name_slug
+            )
+            messages.success(request, 'Assignment was created for course: ' + course_name_slug)
+    context_dict['form'] =  form
+    try:
+        assignment = Assignment.objects.get(course = course_name_slug)
+        course = Course.objects.get(course = course_name_slug)
+        has = Has.objects.get(assignment = assignment_name_slug)
+        context_dict["assignments"] = assignment
+        context_dict["course"] = course
+        context_dict["has"] = has
+    except Assignment.DoesNotExist:  
+        context_dict["has"] = None 
+        context_dict["assignments"] = None
+        context_dict["course"] = None
+    return render(request, 'marking.html', context=context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only

@@ -24,3 +24,4 @@ class CreateHasForm(UserCreationForm):
     class Meta:
         model = Assignment 
         fields = ['assignment', 'Grade']
+        

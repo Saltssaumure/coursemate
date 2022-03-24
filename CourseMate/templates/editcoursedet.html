@@ -8,3 +8,16 @@ Edit Course | CourseMate
 {% block stylesheet-block %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
 {% endblock %}
+
+{% block body-block %}
+<div id="main-container">
+    <h1> Edit Course</h1>
+    <form id="course-edit-form">
+
+        <label for="description">Course description</label>
+        <textarea id="description" name="description" spellcheck="true"></textarea>
+
+        <input type="submit" value="Submit" id="course-edit-submit">
+    </form>
+</div>
+{% endblock %}

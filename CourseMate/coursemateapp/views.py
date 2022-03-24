@@ -86,6 +86,8 @@ def marking(request, course_name_slug):
         context_dict["course"] = None
     return render(request, 'marking.html', context=context_dict)
 
+@login_required(login_url='coursemateapp:login')
+@teacher_only
 def markAssign(request, course_name_slug, assignment_name_slug):
     context_dict = {}
     form = CreateHasForm()
@@ -184,7 +186,7 @@ def student_register(request):
             user = form.save()
             username = form.cleaned_data.get("username")
             group = Group.objects.get(name='student')
-            user.groups.add(group)
+            user.groups.add(group) #not the right method
             Student.objects.create(
                 user=user, student_ID=username
             )

@@ -24,11 +24,30 @@
             <h1><span>Course</span><span>Mate</span></h1>
             <div id="userinfo">
                 {% if user.is_authenticated %}
-                    <span><a href="{% url 'coursemateapp:logout' %}">Logout</a></span>
-                    <h2>welcome back, {{user.first_name}}!</h2>
+                    <span> <button> <a href="{% url 'coursemateapp:logout' %}">Logout</a> </button></span>
+                    <!--Need this js checked-->
+                    <script> 
+                        var groups = CourseMate.user.groups;
+                            for (var i = 0; i < groups.length; i++) {
+                                if (groups[i].name == 'student' && groups[i].isActive == true) {
+                                    $("div.student").show();
+                                }else{
+                                    $("div.teacher").show();
+                                }
+                            }
+                    </script>
+                    <h2>Welcome back, {{user.first_name}}! </h2>
+                    <div class = "student">
+                        <button> <a href="{% url 'coursemateapp:student' %}">Your Page</a> </button>
+                    </div>
+                    <div class = "teacher">
+                        <button> <a href="{% url 'coursemateapp:teacher' %}">Your Page</a> </button>
+                    </div>
+                    
                     <img src="" class="profile_photo" alt="{{user.first_name}}'s profile picture" />
                 {% else %}
                     <h2>You are not logged in</h2>
+                    <span><a href="{% url 'coursemateapp:login' %}">Login</a></span>
                     <img src="{% static 'image/base.jpg' %}" class="profile_photo" alt="not login yet" />
                 {% endif %}
             </div>

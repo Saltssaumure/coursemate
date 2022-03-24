@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
-from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, CreateUserForm
+from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, CreateStudentForm, CreateUserForm
 from .models import Assignment, Course, Has, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
@@ -38,8 +38,21 @@ def course(request, course_name_slug):
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def regstudent(request):
-    return render(request, 'regstudent.html')
+def regstudent(request, course_name_slug):
+    context_dict = {}
+    form = CreateStudentForm()
+    if request.method == "POST":
+        form = CreateStudentForm(request.POST)
+        if form.is_valid():
+            student = form.save()
+            student_ID = form.cleaned_data.get("student_ID")
+            Student.objects.update( #unsure of this
+               student_ID = student_ID
+            )
+            context_dict['student'] = student
+            messages.success(request, 'Course desc changed')
+    context_dict['form'] =  form
+    return render(request, 'regstudent.html', context=context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only

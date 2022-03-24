@@ -10,6 +10,12 @@ class CreateUserForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
+class CreateStudentForm(UserCreationForm):
+    class Meta:
+        model = Student 
+        fields = ['student_ID', 'name']
+
+
 class CreateCourseForm(UserCreationForm):
     class Meta:
         model = Course 

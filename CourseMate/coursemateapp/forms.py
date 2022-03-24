@@ -2,7 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from django.contrib.auth.models import User
-from .models import Assignment, Student, Teacher, Course
+from .models import Assignment, Has, Student, Teacher, Course
 
 
 class CreateUserForm(UserCreationForm):
@@ -13,7 +13,7 @@ class CreateUserForm(UserCreationForm):
 class CreateStudentForm(UserCreationForm):
     class Meta:
         model = Student 
-        fields = ['student_ID', 'name']
+        fields = ['student_ID']
 
 
 class CreateCourseForm(UserCreationForm):
@@ -28,6 +28,6 @@ class CreateAssignmentForm(UserCreationForm):
 
 class CreateHasForm(UserCreationForm):
     class Meta:
-        model = Assignment 
+        model = Has 
         fields = ['assignment', 'Grade']
         

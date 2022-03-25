@@ -16,7 +16,7 @@ class CreateStudentForm(UserCreationForm):
         fields = ['student_ID']
 
 
-class CreateCourseForm(UserCreationForm):
+class CreateCourseForm(ModelForm):
     class Meta:
         model = Course 
         fields = ['course_ID', 'name', 'description']

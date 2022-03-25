@@ -18,6 +18,26 @@ def about(request):
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
+def register_course(request):
+    form = CreateCourseForm()
+    print('1')
+    if request.method == 'POST':
+        print('2')
+        form = CreateCourseForm(request.POST)
+        if form.is_valid():
+            print('3')
+            form.save()
+            course_ID = form.cleaned_data.get("course_ID")
+            teacher = Teacher.objects.get(user=request.user)
+            course = Course.objects.get(course_ID=course_ID)
+            course.teacher = teacher
+            course.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'registecourse.html', context)
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
 def teacher(request):
     return render(request, 'teacher.html')
 
@@ -152,25 +172,7 @@ def teacherreview(request, review_ID_slug):
         context_dict['review'] = None
     return render(request, 'teacherreview.html', context=context_dict)
 
-@login_required(login_url='coursemateapp:login')
-@teacher_only
-def regcourse(request):
-    print("Im at reg course")
-    form = CreateUserForm()
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            course = form.save()
-            ID = form.cleaned_data.get("course_ID")
-            name = form.cleaned_data.get("name")
-            desc = form.cleaned_data.get("description")
-            Course.objects.create(
-                name = name, description=desc
-            )
-            messages.success(request, 'Course was created for' + name)
-            return redirect('coursemateapp:teacher')
-    context = {'form': form}
-    return render(request, 'regcourse.html', context=context)
+
 
 @login_required(login_url='coursemateapp:login')
 @student_only

@@ -57,9 +57,11 @@ class Review(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
     review_ID = models.CharField(max_length=15, null=True)
-    rating = models.FloatField(max_length=10)
-    date = models.DateTimeField(default=timezone.now)
+    rating = models.FloatField(max_length=10, null=True)
+    description = models.CharField(max_length=1000, null=True)
+    date = models.DateTimeField(auto_now=True)
+    done = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.student.student_ID + ' to ' + self.teacher.teacher_ID
+        return self.teacher.teacher_ID
 

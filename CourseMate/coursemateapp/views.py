@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
-from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, CreateStudentForm, CreateUserForm
+from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, CreateStudentForm, CreateUserForm, ReviewForm
 from .models import Assignment, Course, Has, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
@@ -244,7 +244,23 @@ def upload(request):
     return render(request, 'upload.html')
 
 def writereview(request):
-    return render(request, 'writereview.html')
+    form = ReviewForm()
+    print('1')
+    if request.method == 'POST':
+        print('2')
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            print('3')
+            form.save()
+            teacher = form.cleaned_data.get("teacher")
+            student = Student.objects.get(user=request.user)
+            review = Review.objects.get(teacher=teacher, done=False)
+            review.student = student
+            review.done = True
+            review.save()
+            return redirect('coursemateapp:student')
+    context = {'form': form}
+    return render(request, 'writereview.html', context)
 
 def export(request):
     return render(request, 'export.html')

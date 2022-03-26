@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.template.defaultfilters import slugify
 import django.utils.timezone as timezone
 # Create your models here.
 
@@ -28,6 +29,11 @@ class Course(models.Model):
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=1000)
     student = models.ManyToManyField(Student)
+    slug = models.SlugField(blank=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.course_ID)
+        super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.course_ID

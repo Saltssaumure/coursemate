@@ -18,11 +18,10 @@
             {% if reviews %}
                 {% for review in reviews %}
                     <article class="review">
-                        <p>Review text</p>
-                        <ul>
-                            <li>Rating: {{review.rating}}</li>
-                            <li>Date: {{review.date}}</li>
-                        </ul>
+                        <tr>
+                            <td>Review text:{{review.id}}</td>
+                            <td><a href="/coursemateapp/teacher/review/{{ review.slug }}">{{ review.id }}</a></td>
+                        </tr>
                     </article>
                 {% endfor %}
             {% else %}

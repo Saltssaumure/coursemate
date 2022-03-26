@@ -41,7 +41,8 @@ def register_course(request):
 def teacher(request):
     teacher = Teacher.objects.get(teacher_ID=request.user.username)
     course_list = Course.objects.filter(teacher=teacher)
-    context_dict = {'courses': course_list}
+    review_list = Review.objects.filter(teacher=teacher)
+    context_dict = {'courses': course_list, 'reviews': review_list}
     return render(request, 'teacher.html', context_dict)
 
 @login_required(login_url='coursemateapp:login')
@@ -282,6 +283,16 @@ def deletereview(request, review_id_slug):
         review.delete()
         return redirect('coursemateapp:teacher')
     return render(request, 'deletereview.html', context)
+
+def review(request, review_id_slug):
+    print("Im in review")
+    context_dict = {}
+    try:
+        review = Review.objects.get(slug=review_id_slug)
+        context_dict['review'] = review
+    except Course.DoesNotExist:
+        context_dict['review'] = None
+    return render(request, 'review.html', context_dict)
 
 def export(request):
     return render(request, 'export.html')

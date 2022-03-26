@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    {% if review %}
+        {{review.id}} | CourseMate
+    {% else %}
+        Unknown Review
+    {% endif %}
+{% endblock %}
+
+{% block stylesheet-block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+    {% if review %}
+        <h1>rating:</h1>
+        <h1>{{review.rating}}</h1>
+        <h1>Last edit date:</h1>
+        <h1>{{review.date}}</h1>
+        <div id="description">
+            <h1>Description:</h1>
+            <h1>{{review.description}}</h1>
+        </div>
+    {% else %}
+        <strong>Unknown Course</strong>
+    {% endif %}
+    </div>
+{% endblock %}

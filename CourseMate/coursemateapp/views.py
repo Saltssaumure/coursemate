@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
-from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, CreateStudentForm, CreateUserForm, ReviewForm
+from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, AddStudentForm, CreateStudentForm, CreateUserForm, ReviewForm
 from .models import Assignment, Course, Has, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
@@ -39,7 +39,10 @@ def register_course(request):
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def teacher(request):
-    return render(request, 'teacher.html')
+    teacher = Teacher.objects.get(teacher_ID=request.user.username)
+    course_list = Course.objects.filter(teacher=teacher)
+    context_dict = {'courses': course_list}
+    return render(request, 'teacher.html', context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
@@ -47,50 +50,39 @@ def course(request, course_name_slug):
     print("Im in course")
     context_dict = {}
     try:
-        course = Course.objects.get(name=course_name_slug)
-        students = Course.objects.get(students) #Almost definitely wrong need to find another way
-        context_dict['course']=course
-        context_dict['students'] = students
+        course = Course.objects.get(slug=course_name_slug)
+        context_dict['course'] = course
     except Course.DoesNotExist:
         context_dict['course'] = None
-        context_dict['students'] = None
-    return render(request, 'course.html', context=context_dict)
+    return render(request, 'course.html', context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def regstudent(request, course_name_slug):
-    context_dict = {}
-    form = CreateStudentForm()
-    if request.method == "POST":
-        form = CreateStudentForm(request.POST)
+    course = Course.objects.get(slug=course_name_slug)
+    form = AddStudentForm(instance=course)
+
+    if request.method == 'POST':
+        form = AddStudentForm(request.POST, instance=course)
         if form.is_valid():
-            student = form.save()
-            student_ID = form.cleaned_data.get("student_ID")
-            Student.objects.update( #unsure of this
-               student_ID = student_ID
-            )
-            context_dict['student'] = student
-            messages.success(request, 'Course desc changed')
-    context_dict['form'] =  form
-    return render(request, 'regstudent.html', context=context_dict)
+            form.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'regstudent.html', context)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def editcoursedet(request, course_name_slug):
-    context_dict = {}
-    form = CreateCourseForm()
-    if request.method == "POST":
-        form = CreateCourseForm(request.POST)
+def editcourse(request, course_name_slug):
+    print('11111')
+    course = Course.objects.get(slug=course_name_slug)
+    form = CreateCourseForm(instance=course)
+    if request.method == 'POST':
+        form = CreateCourseForm(request.POST, instance=course)
         if form.is_valid():
-            course = form.save()
-            course_desc = form.cleaned_data.get("description")
-            Course.objects.update( #unsure of this
-               description = course_desc, course=course_name_slug
-            )
-            context_dict['course'] = course
-            messages.success(request, 'Course desc changed')
-    context_dict['form'] =  form
-    return render(request, 'editcoursedet.html')
+            form.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'registecourse.html', context)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only

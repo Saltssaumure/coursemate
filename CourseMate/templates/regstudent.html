@@ -9,14 +9,16 @@ Register a Student to a Course | CourseMate
 <link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
 {% endblock %}
 
+{% block body-block %}
 <div id="main-container">
     <h1> Register Student</h1>
     <!--Borrowed form, needs to be suited to adding a student to the course-->
-    <form id="student-reg-form">
-
-        <label for="student_ID">Student ID</label>
-        <input type="text" id="student_ID" name="student_ID" required>
+    <form id="student-reg-form" method="POST" action="">
+        {% csrf_token %}
+        {{ form.student.label }}
+        {{ form.student }}
 
         <input type="submit" value="Submit" id="student-submit">
     </form>
+{% endblock %}
 </div>

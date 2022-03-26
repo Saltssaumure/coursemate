@@ -35,3 +35,8 @@ class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = ['teacher', 'rating', 'description']
+
+class AddStudentForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = ['student']

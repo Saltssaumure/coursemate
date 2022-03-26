@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block title-block %}
-    {% if category %}
+    {% if course %}
         {{course.course_ID}} | CourseMate
     {% else %}
         Unknown Course
@@ -16,35 +16,12 @@
 {% block body-block %}
     <div id="main-container">
     {% if course %}
-        <h1>{{course.course_name}}</h1>
+        <h1>{{course.name}}</h1>
         <div id="description">
             {{course.description}}
         </div>
-        <div>
-            {% if students %}
-            <ul>
-                {% for student in students %}
-                <li>{{ student.student_ID }}</li>
-                {% endfor %}
-            </ul>
-            {% else %}
-                <strong>No students currently in course.</strong>
-            {% endif %}
-            <ul>
-                <button onclick="window.location.href='/teacher/<slug:course_name_slug>/register-student'">Register a student to this course</button>
-            </ul>
-            <ul>
-                <button onclick="window.location.href='teacher/<slug:course_name_slug>/edit-course-detail'">Edit course details</button>
-            </ul>
-            <ul>
-                <button onclick="window.location.href='teacher/<slug:course_name_slug>/marking'">Go to marking</button>
-            </ul>
-            <ul>
-                <button onclick="window.location.href='teacher/<slug:course_name_slug>/edit-course-cont'">Edit course content</button>
-            </ul>
-        </div>
     {% else %}
-        <header>Unknown Course</header>
+        <strong>Unknown Course</strong>
     {% endif %}
     </div>
 {% endblock %}

@@ -12,15 +12,15 @@
 {% block body-block %}
     <div id="main-container">
         <h1> Write a review</h1>
-        <form id="review-form">
-            <label for="review-id">Teacher ID</label>
-            <input type="text" id="review-id" name="review-id" required>
-            <label for="review-score">Rating out of 10 </label>
-            <input type="text" id="review-score" name="review-score" required> 
-            {% comment %} Slider looks fancy but isn't practical
-            <input type="range" min="0" max="10" step="1" id="review-score" name="review-score" required> {% endcomment %}
-            <label for="review-text">Write review</label>
-            <textarea id="review-text" name="review-text"spellcheck="true"></textarea>
+        <form id="review-form" method="POST" action="">
+            {% csrf_token %}
+            {{ form.teacher.label }}
+            {{ form.teacher }}
+            {{ form.rating.label }}
+            {{ form.rating }}
+            {{ form.description.label }}
+            {{ form.description }}
+
             <input type="submit" value="Submit" id="review-submit">
         </form>
     </div>

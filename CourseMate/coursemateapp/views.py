@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 # Create your views here.
-from .forms import CreateAssignmentForm, CreateUserForm
-from .models import Assignment, Course, Review, Student, Teacher
+from .forms import CreateAssignmentForm, CreateCourseForm, CreateHasForm, AddStudentForm, CreateStudentForm, CreateUserForm, ReviewForm
+from .models import Assignment, Course, Has, Review, Student, Teacher
 from .decorators import unauthenticated_user, teacher_only, student_only
 
 def index(request):
@@ -18,32 +18,71 @@ def about(request):
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
+def register_course(request):
+    form = CreateCourseForm()
+    print('1')
+    if request.method == 'POST':
+        print('2')
+        form = CreateCourseForm(request.POST)
+        if form.is_valid():
+            print('3')
+            form.save()
+            course_ID = form.cleaned_data.get("course_ID")
+            teacher = Teacher.objects.get(user=request.user)
+            course = Course.objects.get(course_ID=course_ID)
+            course.teacher = teacher
+            course.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'registecourse.html', context)
+
+@login_required(login_url='coursemateapp:login')
+@teacher_only
 def teacher(request):
-    return render(request, 'teacher.html')
+    teacher = Teacher.objects.get(teacher_ID=request.user.username)
+    course_list = Course.objects.filter(teacher=teacher)
+    context_dict = {'courses': course_list}
+    return render(request, 'teacher.html', context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def course(request, course_name_slug):
+    print("Im in course")
     context_dict = {}
     try:
-        course = Course.objects.get(course_name=course_name_slug)
-        students = Course.objects.get(students) #Almost definitely wrong need to find another way
-        context_dict['course']=course
-        context_dict['students'] = students
+        course = Course.objects.get(slug=course_name_slug)
+        context_dict['course'] = course
     except Course.DoesNotExist:
         context_dict['course'] = None
-        context_dict['students'] = None
-    return render(request, 'course.html', context=context_dict)
+    return render(request, 'course.html', context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def regstudent(request):
-    return render(request, 'regstudent.html')
+def regstudent(request, course_name_slug):
+    course = Course.objects.get(slug=course_name_slug)
+    form = AddStudentForm(instance=course)
+
+    if request.method == 'POST':
+        form = AddStudentForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'regstudent.html', context)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def editcoursedet(request):
-    return render(request, 'editcoursedet.html')
+def editcourse(request, course_name_slug):
+    print('11111')
+    course = Course.objects.get(slug=course_name_slug)
+    form = CreateCourseForm(instance=course)
+    if request.method == 'POST':
+        form = CreateCourseForm(request.POST, instance=course)
+        if form.is_valid():
+            form.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'registecourse.html', context)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
@@ -59,8 +98,34 @@ def marking(request, course_name_slug):
         context_dict["course"] = None
     return render(request, 'marking.html', context=context_dict)
 
-def markAssign(request):
-    return render(request, 'marking.html')
+@login_required(login_url='coursemateapp:login')
+@teacher_only
+def markAssign(request, course_name_slug, assignment_name_slug):
+    context_dict = {}
+    form = CreateHasForm()
+    if request.method == "POST":
+        form = CreateHasForm(request.POST)
+        if form.is_valid():
+            has = form.save()
+            assign_name = form.cleaned_data.get("assignment_name")
+            assign_Grade = form.cleaned_data.get("grade")
+            Has.objects.create(
+                assignment=assign_name, Grade = assign_Grade, course=course_name_slug
+            )
+            messages.success(request, 'Assignment was created for course: ' + course_name_slug)
+    context_dict['form'] =  form
+    try:
+        assignment = Assignment.objects.get(course = course_name_slug)
+        course = Course.objects.get(course = course_name_slug)
+        has = Has.objects.get(assignment = assignment_name_slug)
+        context_dict["assignments"] = assignment
+        context_dict["course"] = course
+        context_dict["has"] = has
+    except Assignment.DoesNotExist:  
+        context_dict["has"] = None 
+        context_dict["assignments"] = None
+        context_dict["course"] = None
+    return render(request, 'marking.html', context=context_dict)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
@@ -73,8 +138,6 @@ def editcoursecont(request, course_name_slug):
             assignment = form.save()
             assign_name = form.cleaned_data.get("name")
             assign_desc = form.cleaned_data.get("description")
-            group = Group.objects.get(name='assignment')
-            assignment.groups.add(group)
             Assignment.objects.create(
                 name=assign_name, description = assign_desc, course=course_name_slug
             )
@@ -101,26 +164,7 @@ def teacherreview(request, review_ID_slug):
         context_dict['review'] = None
     return render(request, 'teacherreview.html', context=context_dict)
 
-@login_required(login_url='coursemateapp:login')
-@teacher_only
-def regcourse(request):
-    form = CreateUserForm()
-    if request.method == "POST":
-        form = CreateUserForm(request.POST)
-        if form.is_valid():
-            course = form.save()
-            ID = form.cleaned_data.get("course_ID")
-            name = form.cleaned_data.get("name")
-            desc = form.cleaned_data.get("description")
-            group = Group.objects.get(name='course')
-            course.groups.add(group)
-            Course.objects.create(
-                name = name, description=desc
-            )
-            messages.success(request, 'Course was created for' + name)
-            return redirect('coursemateapp:teacher')
-    context = {'form': form}
-    return render(request, 'regcourse.html')
+
 
 @login_required(login_url='coursemateapp:login')
 @student_only
@@ -135,9 +179,8 @@ def student_register(request):
         if form.is_valid():
             user = form.save()
             username = form.cleaned_data.get("username")
-
             group = Group.objects.get(name='student')
-            user.groups.add(group)
+            user.groups.add(group) #not the right method
             Student.objects.create(
                 user=user, student_ID=username
             )
@@ -195,7 +238,23 @@ def upload(request):
     return render(request, 'upload.html')
 
 def writereview(request):
-    return render(request, 'writereview.html')
+    form = ReviewForm()
+    print('1')
+    if request.method == 'POST':
+        print('2')
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            print('3')
+            form.save()
+            teacher = form.cleaned_data.get("teacher")
+            student = Student.objects.get(user=request.user)
+            review = Review.objects.get(teacher=teacher, done=False)
+            review.student = student
+            review.done = True
+            review.save()
+            return redirect('coursemateapp:student')
+    context = {'form': form}
+    return render(request, 'writereview.html', context)
 
 def export(request):
     return render(request, 'export.html')

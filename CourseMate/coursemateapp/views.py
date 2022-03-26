@@ -67,26 +67,22 @@ def regstudent(request, course_name_slug):
         if form.is_valid():
             form.save()
             return redirect('coursemateapp:teacher')
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'regstudent.html', context)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only
-def editcoursedet(request, course_name_slug):
-    context_dict = {}
-    form = CreateCourseForm()
-    if request.method == "POST":
-        form = CreateCourseForm(request.POST)
+def editcourse(request, course_name_slug):
+    print('11111')
+    course = Course.objects.get(slug=course_name_slug)
+    form = CreateCourseForm(instance=course)
+    if request.method == 'POST':
+        form = CreateCourseForm(request.POST, instance=course)
         if form.is_valid():
-            course = form.save()
-            course_desc = form.cleaned_data.get("description")
-            Course.objects.update( #unsure of this
-               description = course_desc, course=course_name_slug
-            )
-            context_dict['course'] = course
-            messages.success(request, 'Course desc changed')
-    context_dict['form'] =  form
-    return render(request, 'editcoursedet.html')
+            form.save()
+            return redirect('coursemateapp:teacher')
+    context = {'form': form}
+    return render(request, 'registecourse.html', context)
 
 @login_required(login_url='coursemateapp:login')
 @teacher_only

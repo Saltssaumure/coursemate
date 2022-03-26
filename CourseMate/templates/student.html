@@ -41,25 +41,11 @@
             {% if courses %}
                 {% for course in courses %}
                     <article class="course">
-                        <h2>
-                            <a href="{{course.url}}">{{course.name}}</a>
-                        </h2>
-                        <ul>
-                            <li>Avg Grade: {{course.avggrade}}</li>
-                            <li>Your Grade: {{course.grade}}</li> <!-- this isn't right, change when database built -->
-                        </ul>
-                        <h3>Course Chapters</h3>
-                        <!-- Not sure if course.chapters is the right syntax for this, check later -->
-                        {% if course.chapters %}
-                            <ol> 
-                                {% for chapter in course.chapters %}
-                                    <li>{{chapter}}</li>
-                                    <li><a href="">Submit assessment</a></li>
-                                {% endfor %}
-                            </ol>
-                        {% else %}
-                            <p> {{course.name}} has no chapters. </p>
-                        {% endif %}
+                        <tr>
+                            <td>{{course.name}}</td>
+                            <td>{{course.course_ID}}</td>
+                            <td><button onclick="window.location.href='/coursemateapp/student/course/{{ course.slug }}'">Assessment</button></td>
+                        </tr>
                     </article>
                 {% endfor %}
             {% else %}

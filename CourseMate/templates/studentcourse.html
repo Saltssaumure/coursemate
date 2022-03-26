@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    {% if course %}
+        {{course.course_ID}} | CourseMate
+    {% else %}
+        Unknown Course
+    {% endif %}
+{% endblock %}
+
+{% block stylesheet-block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body-block %}
+    <div id="main-container">
+    {% if course %}
+        <h1>{{course.name}}</h1>
+        <h1>Hello!!!!!!</h1>
+        <div id="description">
+            {{course.description}}
+        </div>
+    {% else %}
+        <strong>Unknown Course</strong>
+    {% endif %}
+    </div>
+{% endblock %}

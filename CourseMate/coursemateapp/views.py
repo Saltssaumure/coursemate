@@ -179,7 +179,8 @@ def teacherreview(request, review_ID_slug):
 def student(request):
     student = Student.objects.get(student_ID=request.user.username)
     review_list = Review.objects.filter(student=student).order_by('-date')
-    context_dict = {'reviews': review_list}
+    course_list = Course.objects.filter(student=student)
+    context_dict = {'reviews': review_list, 'courses': course_list}
     return render(request, 'student.html', context_dict)
 
 @unauthenticated_user
@@ -293,6 +294,16 @@ def review(request, review_id_slug):
     except Course.DoesNotExist:
         context_dict['review'] = None
     return render(request, 'review.html', context_dict)
+
+def studentcourse(request, course_name_slug):
+    print("Im in course")
+    context_dict = {}
+    try:
+        course = Course.objects.get(slug=course_name_slug)
+        context_dict['course'] = course
+    except Course.DoesNotExist:
+        context_dict['course'] = None
+    return render(request, 'studentcourse.html', context_dict)
 
 def export(request):
     return render(request, 'export.html')

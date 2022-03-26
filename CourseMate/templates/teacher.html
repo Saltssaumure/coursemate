@@ -47,9 +47,9 @@
                         <tr>
                             <td><a href="/coursemateapp/teacher/course/{{ course.slug }}">{{ course.course_ID }}</a></td>
                             <td>{{ course.name }}</td>
-                            <button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/student'">Student</button>
-                            <button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/edit'">Edit</button>
-                            <button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/delete'">Delete</button>
+                            <td><button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/student'">Student</button></td>
+                            <td><button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/edit'">Edit</button></td>
+                            <td><button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/delete'">Delete</button></td>
                         </tr>
                     </article>
                 {% endfor %}

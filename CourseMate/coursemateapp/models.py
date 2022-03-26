@@ -62,11 +62,15 @@ class Has(models.Model):
 class Review(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
     student = models.ForeignKey(Student, null=True, on_delete=models.CASCADE)
-    review_ID = models.CharField(max_length=15, null=True)
     rating = models.FloatField(max_length=10, null=True)
     description = models.CharField(max_length=1000, null=True)
     date = models.DateTimeField(auto_now=True)
     done = models.BooleanField(default=False)
+    slug = models.SlugField(blank=True)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.id)
+        super(Review, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.teacher.teacher_ID

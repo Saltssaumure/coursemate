@@ -81,7 +81,6 @@ def deletecourse(request, course_name_slug):
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def editcourse(request, course_name_slug):
-    print('11111')
     course = Course.objects.get(slug=course_name_slug)
     form = CreateCourseForm(instance=course)
     if request.method == 'POST':
@@ -177,7 +176,10 @@ def teacherreview(request, review_ID_slug):
 @login_required(login_url='coursemateapp:login')
 @student_only
 def student(request):
-    return render(request, 'student.html')
+    student = Student.objects.get(student_ID=request.user.username)
+    review_list = Review.objects.filter(student=student).order_by('-date')
+    context_dict = {'reviews': review_list}
+    return render(request, 'student.html', context_dict)
 
 @unauthenticated_user
 def student_register(request):
@@ -247,12 +249,9 @@ def upload(request):
 
 def writereview(request):
     form = ReviewForm()
-    print('1')
     if request.method == 'POST':
-        print('2')
         form = ReviewForm(request.POST)
         if form.is_valid():
-            print('3')
             form.save()
             teacher = form.cleaned_data.get("teacher")
             student = Student.objects.get(user=request.user)
@@ -263,6 +262,26 @@ def writereview(request):
             return redirect('coursemateapp:student')
     context = {'form': form}
     return render(request, 'writereview.html', context)
+
+def editreview(request, review_id_slug):
+    print('editr')
+    review = Review.objects.get(slug=review_id_slug)
+    form = ReviewForm(instance=review)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('coursemateapp:student')
+    context = {'form': form}
+    return render(request, 'writereview.html', context)
+
+def deletereview(request, review_id_slug):
+    review = Review.objects.get(slug=review_id_slug)
+    context = {'review': review}
+    if request.method == 'POST':
+        review.delete()
+        return redirect('coursemateapp:teacher')
+    return render(request, 'deletereview.html', context)
 
 def export(request):
     return render(request, 'export.html')

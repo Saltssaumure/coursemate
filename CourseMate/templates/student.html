@@ -19,12 +19,12 @@
             {% if reviews %}
                 {% for review in reviews %}
                     <article class="review">
-                        <p>Review text</p>
-                        <ul>
-                            <li>Teacher ID: {{review.teacherid}}</li>
-                            <li>Rating: {{review.rating}}</li>
-                            <li>Date: {{review.date}}</li>
-                        </ul>
+                        <tr>
+                            <td>{{ review.teacher.teacher_ID}}</td>
+                            <td>{{ review.date}}</td>
+                            <td><button onclick="window.location.href='/coursemateapp/student/review/{{ review.slug }}/edit'">Edit</button></td>
+                            <td><button onclick="window.location.href='/coursemateapp/student/review/{{ review.slug }}/delete'">Delete</button></td>
+                        </tr>
                     </article>
                 {% endfor %}
             {% else %}

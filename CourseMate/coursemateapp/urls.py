@@ -14,6 +14,7 @@ urlpatterns = [
     path('teacher/course/<slug:course_name_slug>', views.course, name='course'),
     path('teacher/course/<slug:course_name_slug>/student', views.regstudent, name='regstudent'),
     path('teacher/course/<slug:course_name_slug>/edit', views.editcourse, name='editcourse'),
+    path('teacher/course/<slug:course_name_slug>/delete', views.deletecourse, name='deletecourse'),
     # path('teacher/<slug:course_name_slug>/register-student', views.regstudent, name='regstudent'), #implement html properly, check views
     # path('teacher/<slug:course_name_slug>/edit-course-detail', views.editcoursedet, name='editcoursedet'), #test, check views
     # path('teacher/<slug:course_name_slug>/marking', views.marking, name='marking'), #test

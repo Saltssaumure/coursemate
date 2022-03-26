@@ -49,6 +49,7 @@
                             <td>{{ course.name }}</td>
                             <button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/student'">Student</button>
                             <button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/edit'">Edit</button>
+                            <button onclick="window.location.href='/coursemateapp/teacher/course/{{ course.slug }}/delete'">Delete</button>
                         </tr>
                     </article>
                 {% endfor %}

@@ -70,6 +70,14 @@ def regstudent(request, course_name_slug):
     context = {'form': form}
     return render(request, 'regstudent.html', context)
 
+def deletecourse(request, course_name_slug):
+    course = Course.objects.get(slug=course_name_slug)
+    context = {'course': course}
+    if request.method == 'POST':
+        course.delete()
+        return redirect('coursemateapp:teacher')
+    return render(request, 'deletecourse.html', context)
+
 @login_required(login_url='coursemateapp:login')
 @teacher_only
 def editcourse(request, course_name_slug):

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title-block %}
+    Delete Course | CourseMate
+{% endblock %}
+
+{% block stylesheet-block %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/upload.css' %}">
+{% endblock %}
+
+{% block body-block %}
+<div id="main-container">
+    <h1> Are you sure you want to delete the course: '{{ course.name }}'</h1>
+    <!--Borrowed form, needs to be suited to adding a student to the course-->
+    <form id="delete-form" method="POST" action="">
+        {% csrf_token %}
+        <a href="/coursemateapp/teacher">Cancel</a>
+
+        <input type="submit" name="Confirm">
+    </form>
+{% endblock %}
+</div>

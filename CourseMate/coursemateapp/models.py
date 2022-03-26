@@ -24,7 +24,7 @@ class Teacher(models.Model):
 
 class Course(models.Model):
     teacher = models.ForeignKey(Teacher, null=True, on_delete=models.CASCADE)
-    course_ID = models.CharField(max_length=15)
+    course_ID = models.CharField(max_length=15, unique=True)
     name = models.CharField(max_length=30)
     description = models.CharField(max_length=1000)
     student = models.ManyToManyField(Student)

@@ -329,22 +329,37 @@ class ReviewTest(TestCase):
         # set up non-modified objects used by test methods
         teacher_data = Teacher.objects.create(teacher_ID=54321)
         student_data = Student.objects.create(student_ID=12345)
-        review_data = Review.objects.create(teacher=teacher_data, student=student_data, score=15.0)
+        review_data = Review.objects.create(teacher=teacher_data, student=student_data, review_ID=12345, rating=15.0)
     
-    def test_review_score(self):
+    def test_review_ID(self):
         review = Review.objects.get(id=1)
-        review_score = review._meta.get_field('score').verbose_name
-        self.assertEquals(review_score, 'score')
+        review_rating = review._meta.get_field('review_ID').verbose_name
+        self.assertEquals(review_rating, 'review ID')
     
-    def test_review_score_max_length(self):
+    def test_review_ID_max_length(self):
         review = Review.objects.get(id=1)
-        max_length = review._meta.get_field('score').max_length
+        max_length = review._meta.get_field('review_ID').max_length
+        self.assertEquals(max_length, 15) 
+    
+    def test_ID_is_ID(self):
+        review = Review.objects.get(id=1).review_ID
+        expected_rating = "12345"
+        self.assertEqual(str(review), expected_rating) 
+
+    def test_review_rating(self):
+        review = Review.objects.get(id=1)
+        review_rating = review._meta.get_field('rating').verbose_name
+        self.assertEquals(review_rating, 'rating')
+    
+    def test_review_rating_max_length(self):
+        review = Review.objects.get(id=1)
+        max_length = review._meta.get_field('rating').max_length
         self.assertEquals(max_length, 10) 
 
-    def test_score_is_score(self):
-        review = Review.objects.get(id=1).score
-        expected_score = "15.0"
-        self.assertEqual(str(review), expected_score) 
+    def test_rating_is_rating(self):
+        review = Review.objects.get(id=1).rating
+        expected_rating = "15.0"
+        self.assertEqual(str(review), expected_rating) 
 
 class ReviewTestFailCases(TestCase):
     @classmethod
@@ -352,22 +367,38 @@ class ReviewTestFailCases(TestCase):
         # set up non-modified objects used by test methods
         teacher_data = Teacher.objects.create(teacher_ID=54321)
         student_data = Student.objects.create(student_ID=12345)
-        review_data = Review.objects.create(teacher=teacher_data, student=student_data, score=15.0)
+        review_data = Review.objects.create(teacher=teacher_data, student=student_data, review_ID=12345, rating=15.0)
     
-    def test_review_isnt_score(self):
+    def test_review_ID(self):
         review = Review.objects.get(id=1)
-        review_score = review._meta.get_field('score').verbose_name
-        self.assertNotEquals(review_score, 'Score')
+        review_rating = review._meta.get_field('review_ID').verbose_name
+        self.assertNotEquals(review_rating, 'Review ID')
     
-    def test_review_score_wrong_max_length(self):
+    def test_review_ID_max_length(self):
         review = Review.objects.get(id=1)
-        max_length = review._meta.get_field('score').max_length
+        max_length = review._meta.get_field('review_ID').max_length
+        self.assertNotEquals(max_length, 20) 
+    
+    def test_ID_is_ID(self):
+        review = Review.objects.get(id=1).review_ID
+        expected_rating = "1"
+        self.assertNotEqual(str(review), expected_rating) 
+
+    def test_review_isnt_rating(self):
+        review = Review.objects.get(id=1)
+        review_rating = review._meta.get_field('rating').verbose_name
+        self.assertNotEquals(review_rating, 'Rating')
+    
+    def test_review_rating_wrong_max_length(self):
+        review = Review.objects.get(id=1)
+        max_length = review._meta.get_field('rating').max_length
         self.assertNotEquals(max_length, 15) 
 
-    def test_score_isnt_score(self):
-        review = Review.objects.get(id=1).score
-        expected_score = "10.0"
-        self.assertNotEqual(str(review), expected_score) 
+    def test_rating_isnt_rating(self):
+        review = Review.objects.get(id=1).rating
+        expected_rating = "10.0"
+        self.assertNotEqual(str(review), expected_rating) 
+
 
 
 

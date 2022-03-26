@@ -21,6 +21,9 @@ exit()
 
 # Activate (run every time)
 - `conda activate coursemate`
+- `python populate_coursemateapp.py`
+- `python manage.py makemigrations`
+- `python manage.py migrate`
 
 # Run Django local server
 - `cd` to file location

@@ -329,21 +329,21 @@ class ReviewTest(TestCase):
         # set up non-modified objects used by test methods
         teacher_data = Teacher.objects.create(teacher_ID=54321)
         student_data = Student.objects.create(student_ID=12345)
-        review_data = Review.objects.create(teacher=teacher_data, student=student_data, review_ID=12345, rating=15.0)
+        review_data = Review.objects.create(teacher=teacher_data, student=student_data, rating=15.0, description="review test")
     
-    def test_review_ID(self):
+    def test_review_description(self):
         review = Review.objects.get(id=1)
-        review_rating = review._meta.get_field('review_ID').verbose_name
-        self.assertEquals(review_rating, 'review ID')
+        review_rating = review._meta.get_field('description').verbose_name
+        self.assertEquals(review_rating, 'description')
     
-    def test_review_ID_max_length(self):
+    def test_review_description_max_length(self):
         review = Review.objects.get(id=1)
-        max_length = review._meta.get_field('review_ID').max_length
-        self.assertEquals(max_length, 15) 
+        max_length = review._meta.get_field('description').max_length
+        self.assertEquals(max_length, 1000) 
     
-    def test_ID_is_ID(self):
-        review = Review.objects.get(id=1).review_ID
-        expected_rating = "12345"
+    def test_description_is_description(self):
+        review = Review.objects.get(id=1).description
+        expected_rating = "review test"
         self.assertEqual(str(review), expected_rating) 
 
     def test_review_rating(self):
@@ -367,20 +367,20 @@ class ReviewTestFailCases(TestCase):
         # set up non-modified objects used by test methods
         teacher_data = Teacher.objects.create(teacher_ID=54321)
         student_data = Student.objects.create(student_ID=12345)
-        review_data = Review.objects.create(teacher=teacher_data, student=student_data, review_ID=12345, rating=15.0)
+        review_data = Review.objects.create(teacher=teacher_data, student=student_data, rating=15.0, description="review test")
     
-    def test_review_ID(self):
+    def test_review_description(self):
         review = Review.objects.get(id=1)
-        review_rating = review._meta.get_field('review_ID').verbose_name
-        self.assertNotEquals(review_rating, 'Review ID')
+        review_rating = review._meta.get_field('description').verbose_name
+        self.assertNotEquals(review_rating, 'Description')
     
-    def test_review_ID_max_length(self):
+    def test_review_description_max_length(self):
         review = Review.objects.get(id=1)
-        max_length = review._meta.get_field('review_ID').max_length
+        max_length = review._meta.get_field('description').max_length
         self.assertNotEquals(max_length, 20) 
     
-    def test_ID_is_ID(self):
-        review = Review.objects.get(id=1).review_ID
+    def test_description_is_description(self):
+        review = Review.objects.get(id=1).description
         expected_rating = "1"
         self.assertNotEqual(str(review), expected_rating) 
 

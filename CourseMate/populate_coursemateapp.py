@@ -35,11 +35,11 @@ def populate():
         if person['type'] == 'teacher':
             print("making a teacher: " + person['name'])
             Teacher.objects.create(user=u, teacher_ID=teacher_id)
+            teacher_id += 1
         else:
             print("making a student: " + person['name'])
             Student.objects.create(user=u, student_ID=student_id)
-        teacher_id += 1
-        student_id += 1
+            student_id += 1
         
     for course in courses:
         print("making a course: " + course['name'])
